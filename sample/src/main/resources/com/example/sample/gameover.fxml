@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demoap.Gameover">
+   <children>
+      <ImageView fitHeight="406.0" fitWidth="602.0" layoutY="-5.0">
+         <image>
+            <Image url="@../../../../java/com/example/sample/assets/bg2.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="401.0" layoutX="-1.0" layoutY="1.0" opacity="0.48" stroke="BLACK" strokeType="INSIDE" width="602.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="33.0" layoutY="201.0" stroke="BLACK" strokeType="INSIDE" width="70.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="323.0" layoutY="201.0" stroke="BLACK" strokeType="INSIDE" width="119.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="150.0" layoutY="201.0" stroke="BLACK" strokeType="INSIDE" width="70.0" />
+      <TextArea layoutX="219.0" layoutY="54.0" prefHeight="146.0" prefWidth="163.0" text="&#9;    SCORE&#10;&#9;&#9;7&#10;&#9;     BEST&#10;&#9;       13&#10;&#9;  CHERRIES&#10;&#9;&#9;6">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </TextArea>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#202123" height="146.0" layoutX="219.0" layoutY="54.0" opacity="0.15" stroke="BLACK" strokeType="INSIDE" width="163.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a9a9a9" height="86.0" layoutX="117.0" layoutY="301.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
+      <ImageView fitHeight="74.0" fitWidth="70.0" layoutX="125.0" layoutY="309.0" preserveRatio="true">
+         <image>
+            <Image url="@../../../../java/com/example/sample/assets/home.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a9a9a9" height="86.0" layoutX="251.0" layoutY="301.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a9a9a9" height="86.0" layoutX="392.0" layoutY="301.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
+      <ImageView fitHeight="104.0" fitWidth="104.0" layoutX="246.0" layoutY="297.0" preserveRatio="true">
+         <image>
+            <Image url="@../../../../java/com/example/sample/assets/restart.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="70.0" fitWidth="64.0" layoutX="403.0" layoutY="312.0" preserveRatio="true">
+         <image>
+            <Image url="@../../../../java/com/example/sample/assets/reload.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="271.0" layoutY="219.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="131.0" style="-fx-background-color: #f06262; -fx-text-fill: white;" text="REVIVE" textAlignment="RIGHT">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Button>
+      <ImageView blendMode="DARKEN" fitHeight="70.0" fitWidth="64.0" layoutX="-85.0" layoutY="101.0" preserveRatio="true">
+         <image>
+            <Image url="@../../../../java/com/example/sample/assets/cherry.png" />
+         </image>
+      </ImageView>
+      <TextField blendMode="DARKEN" cache="true" layoutX="20.0" layoutY="82.0" prefHeight="102.0" prefWidth="193.0" text="GAME">
+         <font>
+            <Font size="47.0" />
+         </font>
+      </TextField>
+      <TextField blendMode="DARKEN" cache="true" layoutX="392.0" layoutY="82.0" prefHeight="102.0" prefWidth="193.0" text="OVER">
+         <font>
+            <Font size="47.0" />
+         </font>
+      </TextField>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f06262" height="58.0" layoutX="208.0" layoutY="219.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
+      <ImageView blendMode="DARKEN" fitHeight="70.0" fitWidth="70.0" layoutX="216.0" layoutY="213.0" preserveRatio="true">
+         <image>
+            <Image url="@../../../../java/com/example/sample/assets/cherry.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
