@@ -7,12 +7,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demoap.Pause">
    <children>
       <ImageView fitHeight="410.0" fitWidth="600.0">
          <image>
-            <Image url="@../../../../java/com/example/demoap/assets/bg1.png" />
+            <Image url="@../../../../java/com/example/sample/assets/bg2.png" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="410.0" opacity="0.48" stroke="BLACK" strokeType="INSIDE" width="600.0" />
@@ -21,20 +20,20 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKGRAY" height="111.0" layoutX="392.0" layoutY="140.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="112.0" />
       <ImageView fitHeight="105.0" fitWidth="106.0" layoutX="88.0" layoutY="143.0">
          <image>
-            <Image url="@../../../../java/com/example/demoap/assets/home.png" />
+            <Image url="@../../../../java/com/example/sample/assets/home.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="94.0" fitWidth="106.0" layoutX="242.0" layoutY="152.0">
          <image>
-            <Image url="@../../../../java/com/example/demoap/assets/reload.png" />
+            <Image url="@../../../../java/com/example/sample/assets/reload.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="130.0" fitWidth="131.0" layoutX="383.0" layoutY="134.0">
          <image>
-            <Image url="@../../../../java/com/example/demoap/assets/restart.png" />
+            <Image url="@../../../../java/com/example/sample/assets/restart.png" />
          </image>
       </ImageView>
-      <Button blendMode="DARKEN" layoutX="154.0" layoutY="24.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="267.0" text="GAME OVER">
+      <Button blendMode="DARKEN" layoutX="120.0" layoutY="26.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="360.0" text="GAME PAUSED">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>

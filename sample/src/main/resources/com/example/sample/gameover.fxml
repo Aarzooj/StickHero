@@ -20,12 +20,12 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="33.0" layoutY="201.0" stroke="BLACK" strokeType="INSIDE" width="70.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="323.0" layoutY="201.0" stroke="BLACK" strokeType="INSIDE" width="119.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="150.0" layoutY="201.0" stroke="BLACK" strokeType="INSIDE" width="70.0" />
-      <TextArea layoutX="219.0" layoutY="54.0" prefHeight="146.0" prefWidth="163.0" text="&#9;    SCORE&#10;&#9;&#9;7&#10;&#9;     BEST&#10;&#9;       13&#10;&#9;  CHERRIES&#10;&#9;&#9;6">
+      <TextArea layoutX="219.0" layoutY="44.0" prefHeight="156.0" prefWidth="163.0" text="&#9;    SCORE&#10;&#9;&#9;7&#10;&#9;     BEST&#10;&#9;       13&#10;&#9;  CHERRIES&#10;&#9;&#9;6">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </TextArea>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#202123" height="146.0" layoutX="219.0" layoutY="54.0" opacity="0.15" stroke="BLACK" strokeType="INSIDE" width="163.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#202123" height="156.0" layoutX="219.0" layoutY="45.0" opacity="0.15" stroke="BLACK" strokeType="INSIDE" width="163.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a9a9a9" height="86.0" layoutX="117.0" layoutY="301.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
       <ImageView fitHeight="74.0" fitWidth="70.0" layoutX="125.0" layoutY="309.0" preserveRatio="true">
          <image>

@@ -21,7 +21,7 @@
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#282828" height="4.0" layoutX="14.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="202.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#282828" height="4.0" layoutX="187.0" layoutY="115.0" rotate="120.0" stroke="BLACK" strokeType="INSIDE" width="97.0" />
-      <Button layoutX="216.0" layoutY="359.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" style="-fx-background-color: red;" text="LET'S PLAY" textFill="WHITE">
+      <Button layoutX="243.0" layoutY="356.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" style="-fx-background-color: red;" text="LET'S PLAY" textFill="WHITE">
          <font>
             <Font size="19.0" />
          </font>
