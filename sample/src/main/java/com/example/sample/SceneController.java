@@ -1,0 +1,81 @@
+package com.example.sample;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Line;
+import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.io.IOException;
+import java.util.Objects;
+
+public class SceneController {
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+    @FXML
+    private Line stickLine;
+
+    private Timeline timeline;
+
+    public void switchToPlayScreen(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainscreen.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void initialize() {
+        // Initialize the Timeline
+        timeline = new Timeline(new KeyFrame(javafx.util.Duration.millis(10), this::increaseStickLength));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+    }
+
+    @FXML
+    public void handleMousePressed(MouseEvent event) {
+        stickLine.setOpacity(1);
+        timeline.play();
+    }
+
+    @FXML
+    public void handleMouseReleased(MouseEvent event) {
+        // Stop the Timeline when the mouse is released
+        timeline.stop();
+        rotateStickLine();
+    }
+    private void rotateStickLine() {
+        double deltaX = stickLine.getEndX() - stickLine.getStartX();
+        double deltaY = stickLine.getEndY() - stickLine.getStartY();
+        double angle = Math.atan2(deltaY, deltaX);
+
+        // Convert the angle from radians to degrees and negate it to rotate to the right
+        double degrees = -Math.toDegrees(angle);
+
+        // Apply rotation transformation gradually
+        Timeline rotationTimeline = new Timeline(
+                new KeyFrame(Duration.millis(5), e -> rotateStick(degrees / 100))
+        );
+        rotationTimeline.setCycleCount(100);
+        rotationTimeline.play();
+    }
+
+    private void rotateStick(double angle) {
+        Rotate rotate = new Rotate(angle, stickLine.getStartX(), stickLine.getStartY());
+        stickLine.getTransforms().add(rotate);
+    }
+    public void increaseStickLength(ActionEvent event){
+//        stickLine.setOpacity(1);
+//        timeline.play();
+        stickLine.setEndY(stickLine.getEndY() - 2);
+    }
+}

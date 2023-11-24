@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="410.0" fitWidth="600.0">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/bg2.png" />
+            <Image url="@assets/bg3.png" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="410.0" opacity="0.48" stroke="BLACK" strokeType="INSIDE" width="600.0" />
@@ -20,17 +20,17 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKGRAY" height="111.0" layoutX="392.0" layoutY="140.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="112.0" />
       <ImageView fitHeight="105.0" fitWidth="106.0" layoutX="88.0" layoutY="143.0">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/home.png" />
+            <Image url="@assets/home.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="94.0" fitWidth="106.0" layoutX="242.0" layoutY="152.0">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/reload.png" />
+            <Image url="@assets/reload.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="130.0" fitWidth="131.0" layoutX="383.0" layoutY="134.0">
+      <ImageView fitHeight="135.0" fitWidth="141.0" layoutX="378.0" layoutY="132.0">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/restart.png" />
+            <Image url="@assets/restart.png" />
          </image>
       </ImageView>
       <Button blendMode="DARKEN" layoutX="120.0" layoutY="26.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="360.0" text="GAME PAUSED">

@@ -16,7 +16,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="45.0" layoutX="-8.0" stroke="BLACK" strokeType="INSIDE" width="608.0" />
       <ImageView blendMode="DARKEN" fitHeight="85.0" fitWidth="103.0" layoutX="132.0" layoutY="102.0">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/hero1.png" />
+            <Image url="@assets/hero1.png" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#282828" height="4.0" layoutX="14.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="202.0" />
@@ -36,12 +36,12 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="19.0" layoutX="293.0" layoutY="200.0" rotate="60.0" stroke="BLACK" strokeType="INSIDE" width="7.0" />
       <ImageView blendMode="DARKEN" fitHeight="32.0" fitWidth="44.0" layoutX="254.0" layoutY="146.0" style="-fx-blend-mode: white;">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/cherry.png" />
+            <Image url="@assets/cherry.png" />
          </image>
       </ImageView>
       <ImageView blendMode="DARKEN" fitHeight="45.0" fitWidth="82.0" layoutX="242.0" layoutY="223.0">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/hand.png" />
+            <Image url="@assets/hand.png" />
          </image>
       </ImageView>
    </children>

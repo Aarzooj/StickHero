@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="406.0" fitWidth="602.0" layoutY="-5.0">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/bg2.png" />
+            <Image url="@assets/bg3.png" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="401.0" layoutX="-1.0" layoutY="1.0" opacity="0.48" stroke="BLACK" strokeType="INSIDE" width="602.0" />
@@ -29,19 +29,19 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a9a9a9" height="86.0" layoutX="117.0" layoutY="301.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
       <ImageView fitHeight="74.0" fitWidth="70.0" layoutX="125.0" layoutY="309.0" preserveRatio="true">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/home.png" />
+            <Image url="@assets/home.png" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a9a9a9" height="86.0" layoutX="251.0" layoutY="301.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a9a9a9" height="86.0" layoutX="392.0" layoutY="301.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
-      <ImageView fitHeight="104.0" fitWidth="104.0" layoutX="246.0" layoutY="297.0" preserveRatio="true">
+      <ImageView fitHeight="86.0" fitWidth="77.0" layoutX="256.0" layoutY="306.0" preserveRatio="true">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/restart.png" />
+            <Image url="@assets/reload.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="70.0" fitWidth="64.0" layoutX="403.0" layoutY="312.0" preserveRatio="true">
+      <ImageView fitHeight="102.0" fitWidth="95.0" layoutX="387.0" layoutY="294.0" preserveRatio="true">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/reload.png" />
+            <Image url="@assets/restart.png" />
          </image>
       </ImageView>
       <Button layoutX="271.0" layoutY="219.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="131.0" style="-fx-background-color: #f06262; -fx-text-fill: white;" text="REVIVE" textAlignment="RIGHT">
@@ -49,11 +49,6 @@
             <Font size="27.0" />
          </font>
       </Button>
-      <ImageView blendMode="DARKEN" fitHeight="70.0" fitWidth="64.0" layoutX="-85.0" layoutY="101.0" preserveRatio="true">
-         <image>
-            <Image url="@../../../../java/com/example/sample/assets/cherry.png" />
-         </image>
-      </ImageView>
       <TextField blendMode="DARKEN" cache="true" layoutX="20.0" layoutY="82.0" prefHeight="102.0" prefWidth="193.0" text="GAME">
          <font>
             <Font size="47.0" />
@@ -67,7 +62,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f06262" height="58.0" layoutX="208.0" layoutY="219.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="86.0" />
       <ImageView blendMode="DARKEN" fitHeight="70.0" fitWidth="70.0" layoutX="216.0" layoutY="213.0" preserveRatio="true">
          <image>
-            <Image url="@../../../../java/com/example/sample/assets/cherry.png" />
+            <Image url="@assets/cherry.png" />
          </image>
       </ImageView>
    </children>
