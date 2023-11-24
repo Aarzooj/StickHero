@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
@@ -20,11 +21,12 @@ import java.util.Objects;
 public class SceneController {
     private Stage stage;
     private Scene scene;
-    private Parent root;
     @FXML
     private Line stickLine;
 
     private Timeline timeline;
+    @FXML
+    private ImageView myHero;
 
     public void switchToPlayScreen(ActionEvent event) throws IOException{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainscreen.fxml")));
@@ -48,7 +50,7 @@ public class SceneController {
     }
 
     @FXML
-    public void handleMouseReleased(MouseEvent event) {
+    public void handleMouseReleased(MouseEvent event) throws InterruptedException {
         // Stop the Timeline when the mouse is released
         timeline.stop();
         rotateStickLine();
@@ -66,16 +68,37 @@ public class SceneController {
                 new KeyFrame(Duration.millis(5), e -> rotateStick(degrees / 100))
         );
         rotationTimeline.setCycleCount(100);
+        rotationTimeline.setOnFinished(e -> moveHero());
         rotationTimeline.play();
     }
+    private void moveHero() {
+        // Move the hero after the stick rotation is complete
+        double stickLength = Math.sqrt(Math.pow(stickLine.getEndX()-stickLine.getStartX(),2) + Math.pow(stickLine.getEndY()-stickLine.getStartY(),2));
+        double targetX = myHero.getX() + stickLength + 15;
+        double currentX = myHero.getX();
 
+        // Calculate the duration based on the distance to move and the speed
+        double distanceToMove = Math.abs(targetX - currentX);
+        double speed = 1.0;
+
+        // Use a Timeline to gradually change the hero's X position
+        Timeline moveTimeline = new Timeline(
+                new KeyFrame(Duration.millis(5), e -> {
+                    double newX = myHero.getX() + (targetX > currentX ? speed : -speed);
+                    myHero.setX(newX);
+                })
+        );
+
+        // Calculate the number of cycles based on the distance and speed
+        int cycles = (int) (distanceToMove / speed);
+        moveTimeline.setCycleCount(cycles);
+        moveTimeline.play();
+    }
     private void rotateStick(double angle) {
         Rotate rotate = new Rotate(angle, stickLine.getStartX(), stickLine.getStartY());
         stickLine.getTransforms().add(rotate);
     }
     public void increaseStickLength(ActionEvent event){
-//        stickLine.setOpacity(1);
-//        timeline.play();
         stickLine.setEndY(stickLine.getEndY() - 2);
     }
 }
