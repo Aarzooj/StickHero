@@ -89,10 +89,13 @@ public class SceneController {
                 })
         );
 
+        moveTimeline.setOnFinished(event -> fall());
+
         // Calculate the number of cycles based on the distance and speed
         int cycles = (int) (distanceToMove / speed);
         moveTimeline.setCycleCount(cycles);
         moveTimeline.play();
+
     }
     private void rotateStick(double angle) {
         Rotate rotate = new Rotate(angle, stickLine.getStartX(), stickLine.getStartY());
@@ -100,5 +103,30 @@ public class SceneController {
     }
     public void increaseStickLength(ActionEvent event){
         stickLine.setEndY(stickLine.getEndY() - 2);
+    }
+
+    public void fall() {
+        // Set up falling parameters
+        double fallDistance = 300.0; // You can adjust this value based on how far you want the hero to fall
+        double speed = 1.0;
+
+        // Calculate the target Y position for falling
+        double targetY = myHero.getY() + fallDistance;
+
+        // Calculate the duration based on the distance to fall and the speed
+        double distanceToFall = Math.abs(targetY - myHero.getY());
+
+        // Use a Timeline to gradually change the hero's Y position
+        Timeline fallTimeline = new Timeline(
+                new KeyFrame(Duration.millis(5), e -> {
+                    double newY = myHero.getY() + speed;
+                    myHero.setY(newY);
+                })
+        );
+
+        // Calculate the number of cycles based on the distance and speed
+        int cycles = (int) (distanceToFall / speed);
+        fallTimeline.setCycleCount(cycles);
+        fallTimeline.play();
     }
 }
