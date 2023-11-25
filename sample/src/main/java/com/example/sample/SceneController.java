@@ -23,7 +23,7 @@ public class SceneController {
     private Scene scene;
     @FXML
     private Line stickLine;
-
+    private Stick stick;
     private Timeline timeline;
     @FXML
     private ImageView myHero;
@@ -39,6 +39,7 @@ public class SceneController {
     @FXML
     public void initialize() {
         // Initialize the Timeline
+        stick = new Stick(0,0);
         timeline = new Timeline(new KeyFrame(javafx.util.Duration.millis(10), this::increaseStickLength));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
@@ -102,7 +103,7 @@ public class SceneController {
         stickLine.getTransforms().add(rotate);
     }
     public void increaseStickLength(ActionEvent event){
-        stickLine.setEndY(stickLine.getEndY() - 2);
+        stick.increaseLength(stickLine);
     }
 
     public void fall() {

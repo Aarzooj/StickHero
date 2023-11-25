@@ -1,5 +1,7 @@
 package com.example.sample;
 
+import javafx.scene.shape.Line;
+
 public class Stick {
     private float length;
     private float rotation;
@@ -13,8 +15,12 @@ public class Stick {
         return length;
     }
 
-    public void setLength(float length) {
+    public void setLength(float length){
         this.length = length;
+    }
+
+    public void increaseLength(Line stickLine) {
+        stickLine.setEndY(stickLine.getEndY() - 2);
     }
 
     public float getRotation() {
