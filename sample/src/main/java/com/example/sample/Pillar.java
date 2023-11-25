@@ -1,18 +1,18 @@
 package com.example.sample;
 
 public class Pillar {
-    private float width;
-    private float redCentre;
-    private float distanceFromPrev;
+    private double width;
+    private double redCentre;
+    private double distanceFromPrev;
     private static float length = 10;
 
-    public Pillar(float width, float redCentre, float distanceFromPrev) {
+    public Pillar(double width, double redCentre, double distanceFromPrev) {
         this.width = width;
         this.redCentre = redCentre;
         this.distanceFromPrev = distanceFromPrev;
     }
 
-    public float getWidth() {
+    public double getWidth() {
         return width;
     }
 
@@ -20,7 +20,7 @@ public class Pillar {
         this.width = width;
     }
 
-    public float getRedCentre() {
+    public double getRedCentre() {
         return redCentre;
     }
 
@@ -28,7 +28,7 @@ public class Pillar {
         this.redCentre = redCentre;
     }
 
-    public float getDistanceFromPrev() {
+    public double getDistanceFromPrev() {
         return distanceFromPrev;
     }
 
