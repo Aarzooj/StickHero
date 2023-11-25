@@ -99,14 +99,26 @@ public class Hero {
                 })
         );
 
-        if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())){
-            moveTimeline.setOnFinished(event -> fall(myHero));
-        }
+        System.out.println(stickLength);
+        System.out.println(targetPillar.getDistanceFromPrev() );
 
-        // Calculate the number of cycles based on the distance and speed
-        int cycles = (int) (distanceToMove / this.speed);
-        moveTimeline.setCycleCount(cycles);
-        moveTimeline.play();
+        if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())){
+            System.out.println("Yes");
+            moveTimeline.setOnFinished(event -> fall(myHero));
+
+            // Calculate the number of cycles based on the distance and speed
+            int cycles = (int) (distanceToMove / this.speed);
+            moveTimeline.setCycleCount(cycles);
+            moveTimeline.play();
+        }
+        else{
+            double extramove = Math.abs(targetPillar.getWidth() - (stickLength - targetPillar.getDistanceFromPrev()));
+            // Calculate the number of cycles based on the distance and speed
+            int cycles = (int) ((distanceToMove + extramove) / this.speed);
+            moveTimeline.setCycleCount(cycles);
+            moveTimeline.play();
+        }
+        
     }
 
     public boolean hitRedCentre(Pillar p){

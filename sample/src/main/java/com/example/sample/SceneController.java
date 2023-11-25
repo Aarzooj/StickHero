@@ -51,9 +51,10 @@ public class SceneController {
         // Initialize the Timeline
         hero = new Hero(1,1.0,0,0);
         stick = new Stick(0,0);
-        double width = nextPillar.getWidth();
-        double prevDistance = nextPillar.getX() - (prevPillar.getX() + prevPillar.getWidth());
-        targetPillar = new Pillar(width, width/2, prevDistance);
+
+//        double width = nextPillar.getWidth();
+//        double prevDistance = nextPillar.getX() - (prevPillar.getX() + prevPillar.getWidth());
+//        targetPillar = new Pillar(width, width/2, prevDistance);
         timeline = new Timeline(new KeyFrame(javafx.util.Duration.millis(10), this::increaseStickLength));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
@@ -68,6 +69,9 @@ public class SceneController {
     public void handleMouseReleased(MouseEvent event) throws InterruptedException {
         // Stop the Timeline when the mouse is released
         timeline.stop();
+        double width = nextPillar.getWidth();
+        double prevDistance = nextPillar.getLayoutX() - (prevPillar.getLayoutX() + prevPillar.getWidth());
+        targetPillar = new Pillar(width, width/2, prevDistance);
         double stickLength = Math.sqrt(Math.pow(stickLine.getEndX()-stickLine.getStartX(),2) + Math.pow(stickLine.getEndY()-stickLine.getStartY(),2));
         stick.setLength(stickLength);
         stick.rotateStick(stickLine,hero,myHero,targetPillar);
