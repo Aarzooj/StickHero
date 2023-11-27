@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class SceneController {
@@ -36,8 +37,16 @@ public class SceneController {
     private Stage stage;
     private Scene scene;
 
+    public static int stickno = 0;
+    public int pillarno = 0;
+
     @FXML
     private Rectangle prevPillar;
+
+    ArrayList<Pillar> pillars = new ArrayList<>();
+    public static ArrayList<Stick> sticks = new ArrayList<>();
+    public static ArrayList<Line> sticklines = new ArrayList<>();
+
 
     public void switchToPlayScreen(ActionEvent event) throws IOException{
         MainMenu.play(event);
@@ -56,6 +65,8 @@ public class SceneController {
         // Initialize the Timeline
         hero = new Hero(1,1.0,0,0);
         stick = new Stick(0,0);
+        sticks.add(stick);
+        sticklines.add(0,stickLine);
 
 //        double width = nextPillar.getWidth();
 //        double prevDistance = nextPillar.getX() - (prevPillar.getX() + prevPillar.getWidth());
@@ -66,7 +77,7 @@ public class SceneController {
 
     @FXML
     public void handleMousePressed(MouseEvent event) {
-        stickLine.setOpacity(1);
+        sticklines.get(stickno).setOpacity(1);
         timeline.play();
     }
 
@@ -77,12 +88,13 @@ public class SceneController {
         double width = nextPillar.getWidth();
         double prevDistance = nextPillar.getLayoutX() - (prevPillar.getLayoutX() + prevPillar.getWidth());
         targetPillar = new Pillar(width, width/2, prevDistance);
-        double stickLength = Math.sqrt(Math.pow(stickLine.getEndX()-stickLine.getStartX(),2) + Math.pow(stickLine.getEndY()-stickLine.getStartY(),2));
-        stick.setLength(stickLength);
-        stick.rotateStick(stickLine,hero,myHero,targetPillar,nextPillar,prevPillar);
+        double stickLength = Math.sqrt(Math.pow(sticklines.get(stickno).getEndX()-sticklines.get(stickno).getStartX(),2) + Math.pow(sticklines.get(stickno).getEndY()-sticklines.get(stickno).getStartY(),2));
+        sticks.get(stickno).setLength(stickLength);
+        sticks.get(stickno).rotateStick(sticklines.get(stickno),hero,myHero,targetPillar,nextPillar,prevPillar);
     }
 
     public void increaseStickLength(ActionEvent event){
-        stick.increaseLength(stickLine);
+        //System.out.println(stickno);
+        sticks.get(stickno).increaseLength(sticklines.get(stickno));
     }
 }

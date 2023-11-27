@@ -8,6 +8,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+
+import static com.example.sample.SceneController.sticks;
+
 public class Stick {
     private double length;
     private float rotation;

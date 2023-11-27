@@ -192,6 +192,17 @@ public class Hero {
                     TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
                     transition.setToX(-(target.getLayoutX() + 7 + Math.random() * 180));
                     transition.play();
+                    Stick stick = new Stick(0, 0);
+                    Line line = new Line(target.getWidth()-5,target.getLayoutY(),target.getWidth()-5,target.getLayoutY()-15);
+                    line.setOpacity(0);
+                    line.setStrokeWidth(4.0);
+                   // anchor.getChildren().remove(stickLine);
+                    anchor.getChildren().add(line);
+                    SceneController.stickno++;
+                    System.out.println(SceneController.stickno);
+                    SceneController.sticklines.add(SceneController.stickno,line);
+                    SceneController.sticks.add(stick);
+
                 } else {
                     // Handle the case where anchor is null
                     System.out.println("Anchor is null");
