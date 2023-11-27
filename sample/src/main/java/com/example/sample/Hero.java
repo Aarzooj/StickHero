@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -156,6 +157,22 @@ public class Hero {
 
                 // Play the translation animation
                 prevTransition.play();
+                AnchorPane anchor = (AnchorPane) myHero.getScene().lookup("#anchor");
+
+                // Check if anchor is not null before proceeding
+                if (anchor != null) {
+                    Rectangle nextPillar = new Rectangle(40 + Math.random() * 150, 200);
+                    System.out.println(nextPillar.getWidth());
+                    nextPillar.setLayoutX(anchor.getWidth());
+                    nextPillar.setLayoutY(target.getLayoutY());
+                    anchor.getChildren().add(nextPillar);
+                    TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
+                    transition.setToX(-(target.getLayoutX() + 7 + Math.random() * 180));
+                    transition.play();
+                } else {
+                    // Handle the case where anchor is null
+                    System.out.println("Anchor is null");
+                }
             });
             moveTimeline.play();
         }
