@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class SceneController {
-    private Stage stage;
-    private Scene scene;
     @FXML
     private Line stickLine;
     private Stick stick;
@@ -39,11 +37,7 @@ public class SceneController {
     private Rectangle prevPillar;
 
     public void switchToPlayScreen(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("mainscreen.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        MainMenu.play(event);
     }
 
     @FXML
