@@ -3,11 +3,17 @@ package com.example.sample;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public class Hero {
     private int state;
@@ -76,6 +82,23 @@ public class Hero {
                     myHero.setY(newY);
                 })
         );
+        fallTimeline.setOnFinished(event -> {
+            // Load the gameover.fxml scene
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("gameover.fxml"));
+                Parent gameoverRoot = loader.load();
+                Scene gameoverScene = new Scene(gameoverRoot);
+
+                // Get the current stage
+                Stage currentStage = (Stage) myHero.getScene().getWindow();
+
+                // Set the gameover scene and show it
+                currentStage.setScene(gameoverScene);
+                currentStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         // Calculate the number of cycles based on the distance and speed
         int cycles = (int) (distanceToFall / speed);

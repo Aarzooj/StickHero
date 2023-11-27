@@ -33,12 +33,22 @@ public class SceneController {
     @FXML
     private Rectangle nextPillar;
     private Pillar targetPillar;
+    private Stage stage;
+    private Scene scene;
 
     @FXML
     private Rectangle prevPillar;
 
     public void switchToPlayScreen(ActionEvent event) throws IOException{
         MainMenu.play(event);
+    }
+
+    public void switchToPauseScreen(MouseEvent event) throws IOException{
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("pause.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

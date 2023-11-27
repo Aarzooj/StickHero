@@ -8,9 +8,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" prefHeight="412.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sample.SceneController">
+<AnchorPane fx:id="anchor" prefHeight="412.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sample.SceneController">
    <children>
-      <ImageView fitHeight="407.0" fitWidth="600.0" layoutY="4.0">
+      <ImageView fitHeight="407.0" fitWidth="600.0" layoutY="4.0" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased">
          <image>
             <Image url="@assets/bg3.png" />
          </image>
@@ -38,5 +38,11 @@
          </font>
       </Button>
       <Line fx:id="stickLine" endX="-48.0" endY="60.59999084472656" layoutX="187.0" layoutY="137.0" opacity="0.0" startX="-48.0" startY="75.80000305175781" strokeWidth="4.0" />
+      <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="8.0" layoutY="7.0">
+         <image>
+            <Image url="@assets/pause.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onMousePressed="#switchToPauseScreen" opacity="0.0" prefHeight="38.0" prefWidth="30.0" text="Button" />
    </children>
 </AnchorPane>
