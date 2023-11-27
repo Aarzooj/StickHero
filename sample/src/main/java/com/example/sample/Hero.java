@@ -125,8 +125,8 @@ public class Hero {
                 })
         );
 
-        System.out.println(stickLength);
-        System.out.println("New" + targetPillar.getDistanceFromPrev());
+//        System.out.println(stickLength);
+//        System.out.println("New" + targetPillar.getDistanceFromPrev());
 
         if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())){
             moveTimeline.setOnFinished(event -> fall(myHero));
@@ -142,22 +142,21 @@ public class Hero {
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
             moveTimeline.setCycleCount(cycles);
             moveTimeline.setOnFinished(event -> {
+                // Target pillar old
                 TranslateTransition shiftTransition = new TranslateTransition(Duration.millis(500), target);
-
                 // Calculate the translation distance
-                double translationDistance = SceneController.rectangles.get(0).getWidth() - target.getLayoutX() - target.getWidth();
-
+                double translationDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
                 // Set the translation
-                shiftTransition.setByX(translationDistance);
+                shiftTransition.setByX(-translationDistance);
 
                 // Play the translation animation
                 shiftTransition.play();
                 TranslateTransition heroTransition = new TranslateTransition(Duration.millis(500), myHero);
 
                 // Calculate the translation distance
-                double heroDistance = SceneController.rectangles.get(0).getWidth() - target.getLayoutX() - target.getWidth();
+                double heroDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
                 // Set the translation
-                heroTransition.setByX(heroDistance);
+                heroTransition.setByX(-heroDistance);
 
                 // Play the translation animation
                 heroTransition.play();
@@ -165,18 +164,19 @@ public class Hero {
                 TranslateTransition stickTransition = new TranslateTransition(Duration.millis(500), stickLine);
 
                 // Calculate the translation distance
-                double stickDistance = SceneController.rectangles.get(0).getWidth() - target.getLayoutX() - target.getWidth();
+                double stickDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
                 // Set the translation
-                stickTransition.setByX(stickDistance);
+                stickTransition.setByX(-stickDistance);
 
                 // Play the translation animation
                 stickTransition.play();
                 TranslateTransition prevTransition = new TranslateTransition(Duration.millis(500), prevPillar);
 
                 // Calculate the translation distance
-                double prevDistance = SceneController.rectangles.get(0).getWidth() - target.getLayoutX() - target.getWidth();
+                // Base pillar
+                double prevDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
                 // Set the translation
-                prevTransition.setByX(prevDistance);
+                prevTransition.setByX(-prevDistance);
 
                 // Play the translation animation
                 prevTransition.play();
@@ -195,7 +195,7 @@ public class Hero {
                     TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
                     double extra =  7 + Math.random() * 180;
                     transition.setToX(-(anchor.getWidth()-(SceneController.rectangles.get(0).getWidth() + extra)));
-                    System.out.println("Old" + extra);
+//                    System.out.println("Old" + extra);
                     Pillar newPillar = new Pillar(width,width/2,extra);
                     SceneController.pillars.add(newPillar);
                     transition.play();
@@ -206,7 +206,7 @@ public class Hero {
                    // anchor.getChildren().remove(stickLine);
                     anchor.getChildren().add(line);
                     SceneController.stickno++;
-                    System.out.println(SceneController.stickno);
+//                    System.out.println(SceneController.stickno);
                     SceneController.sticklines.add(SceneController.stickno,line);
                     SceneController.sticks.add(stick);
 

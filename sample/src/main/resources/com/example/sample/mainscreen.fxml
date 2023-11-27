@@ -16,8 +16,8 @@
          </image>
       </ImageView>
       <Rectangle fx:id="nextPillar" arcHeight="5.0" arcWidth="5.0" height="200.0" layoutX="226.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="105.0" />
-      <Rectangle fx:id="prevPillar" arcHeight="5.0" arcWidth="5.0" height="200.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="141.0" />
-      <ImageView fx:id="myHero" blendMode="DARKEN" fitHeight="77.0" fitWidth="95.0" layoutX="76.0" layoutY="137.0">
+      <Rectangle fx:id="prevPillar" arcHeight="5.0" arcWidth="5.0" height="200.0" layoutY="212.0" stroke="BLACK" strokeType="INSIDE" width="105.0" />
+      <ImageView fx:id="myHero" blendMode="DARKEN" fitHeight="77.0" fitWidth="95.0" layoutX="39.0" layoutY="137.0">
          <image>
             <Image url="@assets/hero1.png" />
          </image>
@@ -37,7 +37,7 @@
             <Font size="11.0" />
          </font>
       </Button>
-      <Line fx:id="stickLine" endX="-48.0" endY="60.59999084472656" layoutX="187.0" layoutY="137.0" opacity="0.0" startX="-48.0" startY="75.80000305175781" strokeWidth="4.0" />
+      <Line fx:id="stickLine" endX="-48.0" endY="60.59999084472656" layoutX="149.0" layoutY="137.0" opacity="0.0" startX="-48.0" startY="75.80000305175781" strokeWidth="4.0" />
       <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="8.0" layoutY="7.0">
          <image>
             <Image url="@assets/pause.png" />
