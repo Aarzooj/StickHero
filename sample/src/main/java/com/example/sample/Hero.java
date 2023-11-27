@@ -112,7 +112,7 @@ public class Hero {
             moveTimeline.play();
         }
         else{
-            double extramove = Math.abs(targetPillar.getWidth() - (stickLength - targetPillar.getDistanceFromPrev()));
+            double extramove = Math.abs(targetPillar.getWidth() - (stickLength - targetPillar.getDistanceFromPrev())) - 15;
             // Calculate the number of cycles based on the distance and speed
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
             moveTimeline.setCycleCount(cycles);
