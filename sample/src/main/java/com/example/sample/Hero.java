@@ -184,13 +184,19 @@ public class Hero {
 
                 // Check if anchor is not null before proceeding
                 if (anchor != null) {
-                    Rectangle nextPillar = new Rectangle(40 + Math.random() * 150, 200);
+                    double width = 40 + Math.random() * 150;
+                    Rectangle nextPillar = new Rectangle(width, 200);
                     System.out.println(nextPillar.getWidth());
                     nextPillar.setLayoutX(anchor.getWidth());
                     nextPillar.setLayoutY(target.getLayoutY());
                     anchor.getChildren().add(nextPillar);
+                    SceneController.rectangles.add(nextPillar);
+                    SceneController.pillarno++;
                     TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
-                    transition.setToX(-(target.getLayoutX() + 7 + Math.random() * 180));
+                    double extra =  7 + Math.random() * 180;
+                    transition.setToX(-(target.getLayoutX() + extra));
+                    Pillar newPillar = new Pillar(width,width/2,extra);
+                    SceneController.pillars.add(newPillar);
                     transition.play();
                     Stick stick = new Stick(0, 0);
                     Line line = new Line(target.getWidth()-5,target.getLayoutY(),target.getWidth()-5,target.getLayoutY()-15);

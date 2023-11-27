@@ -33,17 +33,21 @@ public class SceneController {
 
     @FXML
     private Rectangle nextPillar;
+
     private Pillar targetPillar;
     private Stage stage;
     private Scene scene;
 
     public static int stickno = 0;
-    public int pillarno = 0;
+    public static int pillarno = 0;
 
     @FXML
     private Rectangle prevPillar;
 
-    ArrayList<Pillar> pillars = new ArrayList<>();
+    private Pillar initialPillar;
+
+    public static ArrayList<Pillar> pillars = new ArrayList<>();
+    public static ArrayList<Rectangle> rectangles = new ArrayList<>();
     public static ArrayList<Stick> sticks = new ArrayList<>();
     public static ArrayList<Line> sticklines = new ArrayList<>();
 
@@ -85,12 +89,19 @@ public class SceneController {
     public void handleMouseReleased(MouseEvent event) throws InterruptedException {
         // Stop the Timeline when the mouse is released
         timeline.stop();
-        double width = nextPillar.getWidth();
-        double prevDistance = nextPillar.getLayoutX() - (prevPillar.getLayoutX() + prevPillar.getWidth());
-        targetPillar = new Pillar(width, width/2, prevDistance);
+        if (pillarno == 0){
+            rectangles.add(prevPillar);
+            rectangles.add(nextPillar);
+            double width = rectangles.get(pillarno+1).getWidth();
+            double prevDistance = rectangles.get(pillarno+1).getLayoutX() - (rectangles.get(pillarno).getLayoutX() + rectangles.get(pillarno).getWidth());
+            targetPillar = new Pillar(width, width/2, prevDistance);
+            pillars.add(initialPillar);
+            pillars.add(targetPillar);
+        }
+
         double stickLength = Math.sqrt(Math.pow(sticklines.get(stickno).getEndX()-sticklines.get(stickno).getStartX(),2) + Math.pow(sticklines.get(stickno).getEndY()-sticklines.get(stickno).getStartY(),2));
         sticks.get(stickno).setLength(stickLength);
-        sticks.get(stickno).rotateStick(sticklines.get(stickno),hero,myHero,targetPillar,nextPillar,prevPillar);
+        sticks.get(stickno).rotateStick(sticklines.get(stickno),hero,myHero,pillars.get(pillarno+1),rectangles.get(pillarno+1),rectangles.get(pillarno));
     }
 
     public void increaseStickLength(ActionEvent event){
