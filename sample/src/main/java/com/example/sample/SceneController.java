@@ -92,8 +92,8 @@ public class SceneController {
         if (pillarno == 0){
             rectangles.add(prevPillar);
             rectangles.add(nextPillar);
-            double width = rectangles.get(pillarno+1).getWidth();
-            double prevDistance = rectangles.get(pillarno+1).getLayoutX() - (rectangles.get(pillarno).getLayoutX() + rectangles.get(pillarno).getWidth());
+            double width = nextPillar.getWidth();
+            double prevDistance = nextPillar.getLayoutX() - (prevPillar.getLayoutX() + prevPillar.getWidth());
             targetPillar = new Pillar(width, width/2, prevDistance);
             pillars.add(initialPillar);
             pillars.add(targetPillar);

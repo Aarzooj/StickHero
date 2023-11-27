@@ -126,7 +126,7 @@ public class Hero {
         );
 
         System.out.println(stickLength);
-        System.out.println(targetPillar.getDistanceFromPrev() );
+        System.out.println("New" + targetPillar.getDistanceFromPrev());
 
         if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())){
             moveTimeline.setOnFinished(event -> fall(myHero));
@@ -145,7 +145,7 @@ public class Hero {
                 TranslateTransition shiftTransition = new TranslateTransition(Duration.millis(500), target);
 
                 // Calculate the translation distance
-                double translationDistance = prevPillar.getLayoutX() - target.getLayoutX();
+                double translationDistance = SceneController.rectangles.get(0).getWidth() - target.getLayoutX() - target.getWidth();
 
                 // Set the translation
                 shiftTransition.setByX(translationDistance);
@@ -155,7 +155,7 @@ public class Hero {
                 TranslateTransition heroTransition = new TranslateTransition(Duration.millis(500), myHero);
 
                 // Calculate the translation distance
-                double heroDistance = prevPillar.getLayoutX() - target.getLayoutX();
+                double heroDistance = SceneController.rectangles.get(0).getWidth() - target.getLayoutX() - target.getWidth();
                 // Set the translation
                 heroTransition.setByX(heroDistance);
 
@@ -165,7 +165,7 @@ public class Hero {
                 TranslateTransition stickTransition = new TranslateTransition(Duration.millis(500), stickLine);
 
                 // Calculate the translation distance
-                double stickDistance = prevPillar.getLayoutX() - target.getLayoutX();
+                double stickDistance = SceneController.rectangles.get(0).getWidth() - target.getLayoutX() - target.getWidth();
                 // Set the translation
                 stickTransition.setByX(stickDistance);
 
@@ -174,7 +174,7 @@ public class Hero {
                 TranslateTransition prevTransition = new TranslateTransition(Duration.millis(500), prevPillar);
 
                 // Calculate the translation distance
-                double prevDistance = prevPillar.getLayoutX() - target.getLayoutX();
+                double prevDistance = SceneController.rectangles.get(0).getWidth() - target.getLayoutX() - target.getWidth();
                 // Set the translation
                 prevTransition.setByX(prevDistance);
 
@@ -186,7 +186,7 @@ public class Hero {
                 if (anchor != null) {
                     double width = 40 + Math.random() * 150;
                     Rectangle nextPillar = new Rectangle(width, 200);
-                    System.out.println(nextPillar.getWidth());
+//                    System.out.println(nextPillar.getWidth());
                     nextPillar.setLayoutX(anchor.getWidth());
                     nextPillar.setLayoutY(target.getLayoutY());
                     anchor.getChildren().add(nextPillar);
@@ -194,12 +194,13 @@ public class Hero {
                     SceneController.pillarno++;
                     TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
                     double extra =  7 + Math.random() * 180;
-                    transition.setToX(-(target.getLayoutX() + extra));
+                    transition.setToX(-(anchor.getWidth()-(SceneController.rectangles.get(0).getWidth() + extra)));
+                    System.out.println("Old" + extra);
                     Pillar newPillar = new Pillar(width,width/2,extra);
                     SceneController.pillars.add(newPillar);
                     transition.play();
                     Stick stick = new Stick(0, 0);
-                    Line line = new Line(target.getWidth()-5,target.getLayoutY(),target.getWidth()-5,target.getLayoutY()-15);
+                    Line line = new Line(SceneController.rectangles.get(0).getWidth()-5,target.getLayoutY(),SceneController.rectangles.get(0).getWidth()-5,target.getLayoutY()-15);
                     line.setOpacity(0);
                     line.setStrokeWidth(4.0);
                    // anchor.getChildren().remove(stickLine);
