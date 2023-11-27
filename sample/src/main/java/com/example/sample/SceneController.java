@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -68,7 +69,7 @@ public class SceneController {
         targetPillar = new Pillar(width, width/2, prevDistance);
         double stickLength = Math.sqrt(Math.pow(stickLine.getEndX()-stickLine.getStartX(),2) + Math.pow(stickLine.getEndY()-stickLine.getStartY(),2));
         stick.setLength(stickLength);
-        stick.rotateStick(stickLine,hero,myHero,targetPillar);
+        stick.rotateStick(stickLine,hero,myHero,targetPillar,nextPillar,prevPillar);
     }
 
     public void increaseStickLength(ActionEvent event){

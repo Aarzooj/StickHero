@@ -2,8 +2,10 @@ package com.example.sample;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class Hero {
@@ -83,7 +85,7 @@ public class Hero {
     public void revive(){
     }
 
-    public void move(ImageView myHero, Line stickLine, Pillar targetPillar){
+    public void move(ImageView myHero, Line stickLine, Pillar targetPillar, Rectangle target, Rectangle prevPillar){
         double stickLength = Math.sqrt(Math.pow(stickLine.getEndX()-stickLine.getStartX(),2) + Math.pow(stickLine.getEndY()-stickLine.getStartY(),2));
         double targetX = myHero.getX() + stickLength + 15;
         double currentX = myHero.getX();
@@ -103,7 +105,6 @@ public class Hero {
         System.out.println(targetPillar.getDistanceFromPrev() );
 
         if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())){
-            System.out.println("Yes");
             moveTimeline.setOnFinished(event -> fall(myHero));
 
             // Calculate the number of cycles based on the distance and speed
@@ -116,9 +117,48 @@ public class Hero {
             // Calculate the number of cycles based on the distance and speed
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
             moveTimeline.setCycleCount(cycles);
+            moveTimeline.setOnFinished(event -> {
+                TranslateTransition shiftTransition = new TranslateTransition(Duration.millis(500), target);
+
+                // Calculate the translation distance
+                double translationDistance = prevPillar.getLayoutX() - target.getLayoutX();
+
+                // Set the translation
+                shiftTransition.setByX(translationDistance);
+
+                // Play the translation animation
+                shiftTransition.play();
+                TranslateTransition heroTransition = new TranslateTransition(Duration.millis(500), myHero);
+
+                // Calculate the translation distance
+                double heroDistance = prevPillar.getLayoutX() - target.getLayoutX();
+                // Set the translation
+                heroTransition.setByX(heroDistance);
+
+                // Play the translation animation
+                heroTransition.play();
+
+                TranslateTransition stickTransition = new TranslateTransition(Duration.millis(500), stickLine);
+
+                // Calculate the translation distance
+                double stickDistance = prevPillar.getLayoutX() - target.getLayoutX();
+                // Set the translation
+                stickTransition.setByX(stickDistance);
+
+                // Play the translation animation
+                stickTransition.play();
+                TranslateTransition prevTransition = new TranslateTransition(Duration.millis(500), prevPillar);
+
+                // Calculate the translation distance
+                double prevDistance = prevPillar.getLayoutX() - target.getLayoutX();
+                // Set the translation
+                prevTransition.setByX(prevDistance);
+
+                // Play the translation animation
+                prevTransition.play();
+            });
             moveTimeline.play();
         }
-        
     }
 
     public boolean hitRedCentre(Pillar p){

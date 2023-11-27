@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
@@ -36,7 +37,7 @@ public class Stick {
         this.rotation = rotation;
     }
 
-    public void rotateStick(Line stickLine, Hero hero, ImageView myHero, Pillar targetPillar){
+    public void rotateStick(Line stickLine, Hero hero, ImageView myHero, Pillar targetPillar, Rectangle target, Rectangle prevPillar){
         double deltaX = stickLine.getEndX() - stickLine.getStartX();
         double deltaY = stickLine.getEndY() - stickLine.getStartY();
         double angle = Math.atan2(deltaY, deltaX);
@@ -49,7 +50,7 @@ public class Stick {
                 new KeyFrame(Duration.millis(5), e -> rotateStick(degrees / 100,stickLine))
         );
         rotationTimeline.setCycleCount(100);
-        rotationTimeline.setOnFinished(e -> hero.move(myHero,stickLine,targetPillar));
+        rotationTimeline.setOnFinished(e -> hero.move(myHero,stickLine,targetPillar,target,prevPillar));
         rotationTimeline.play();
     }
     private void rotateStick(double angle, Line stickLine) {
