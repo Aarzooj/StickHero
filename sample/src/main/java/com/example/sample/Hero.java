@@ -21,6 +21,7 @@ public class Hero {
     private int cherries;
     private int score;
     private Stick stick;
+//    private double currentX = 0;
 
     public void collectCherries(int cherries) {
         this.cherries = cherries;
@@ -135,13 +136,10 @@ public class Hero {
         final Timeline[] moveTimeline = new Timeline[1];
         moveTimeline[0] = new Timeline(
                 new KeyFrame(Duration.millis(5), e -> {
-                    if (targetPillar.getDistanceFromPrev() == myHero.getX() - 15 && this.state == -1) {
+                    if (myHero.getBoundsInParent().intersects(target.getBoundsInParent()) && this.state == -1) {
                         this.fall(myHero);
                         moveTimeline[0].stop(); // Stop the timeline immediately
                     } else {
-                        System.out.println("State = " + state);
-                        System.out.println("X coordinate = " + myHero.getX());
-                        System.out.printf("X coordinate Pillar= %f\n", targetPillar.getDistanceFromPrev() + SceneController.rectangles.get(0).getWidth());
                         double newX = myHero.getX() + (targetX > currentX ? speed : -speed);
                         myHero.setX(newX);
                     }
@@ -165,6 +163,7 @@ public class Hero {
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
             moveTimeline[0].setCycleCount(cycles);
             moveTimeline[0].setOnFinished(event -> {
+//                this.currentX = myHero.getX();
                 // Target pillar old
                 TranslateTransition shiftTransition = new TranslateTransition(Duration.millis(500), target);
                 // Calculate the translation distance
@@ -207,7 +206,7 @@ public class Hero {
 
                 // Check if anchor is not null before proceeding
                 if (anchor != null) {
-                    double width = 40 + Math.random() * 150;
+                    double width = 30 + Math.random() * 120;
                     Rectangle nextPillar = new Rectangle(width, 200);
 //                    System.out.println(nextPillar.getWidth());
                     nextPillar.setLayoutX(anchor.getWidth());
@@ -216,7 +215,7 @@ public class Hero {
                     SceneController.rectangles.add(nextPillar);
                     SceneController.pillarno++;
                     TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
-                    double extra =  7 + Math.random() * 180;
+                    double extra =  9 + Math.random() * 180;
                     transition.setToX(-(anchor.getWidth()-(SceneController.rectangles.get(0).getWidth() + extra)));
 //                    System.out.println("Old" + extra);
                     Pillar newPillar = new Pillar(width,width/2,extra);
