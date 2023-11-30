@@ -34,6 +34,8 @@ public class SceneController {
     @FXML
     private Rectangle nextPillar;
 
+    private int stickDown = 0;
+
     private Pillar targetPillar;
     private Stage stage;
     private Scene scene;
@@ -81,13 +83,22 @@ public class SceneController {
 
     @FXML
     public void handleMousePressed(MouseEvent event) {
-        sticklines.get(stickno).setOpacity(1);
-        timeline.play();
+        if (sticks.get(stickno).getRotation() == 0){
+            sticklines.get(stickno).setOpacity(1);
+            stickDown = 1;
+            timeline.play();
+        }else if (sticks.get(stickno).getRotation() == -90){
+            stickDown = 0;
+            hero.flipHero(myHero);
+        }
     }
 
     @FXML
     public void handleMouseReleased(MouseEvent event) throws InterruptedException {
         // Stop the Timeline when the mouse is released
+        if (stickDown == 0){
+            return;
+        }
         timeline.stop();
         if (pillarno == 0){
             rectangles.add(prevPillar);

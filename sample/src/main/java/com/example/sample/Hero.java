@@ -65,6 +65,20 @@ public class Hero {
     public void dropStick(){
     }
 
+    public void flipHero(ImageView myHero){
+        if (this.state == 1){
+            double originalBottomY = myHero.getFitHeight();
+            myHero.setScaleY(myHero.getScaleY() * -1);
+            myHero.setLayoutY(myHero.getLayoutY() + originalBottomY);
+            this.state = -1;
+        }else if (this.state == -1){
+            double originalBottomY = myHero.getFitHeight();
+            myHero.setScaleY(myHero.getScaleY() * -1);
+            myHero.setLayoutY(myHero.getLayoutY() - originalBottomY);
+            this.state = 1;
+        }
+    }
+
     public void fall(ImageView myHero){
         double fallDistance = 300.0; // You can adjust this value based on how far you want the hero to fall
         double speed = 2.0;
@@ -118,10 +132,19 @@ public class Hero {
         double distanceToMove = Math.abs(targetX - currentX);
 
         // Use a Timeline to gradually change the hero's X position
-        Timeline moveTimeline = new Timeline(
+        final Timeline[] moveTimeline = new Timeline[1];
+        moveTimeline[0] = new Timeline(
                 new KeyFrame(Duration.millis(5), e -> {
-                    double newX = myHero.getX() + (targetX > currentX ? speed : -speed);
-                    myHero.setX(newX);
+                    if (targetPillar.getDistanceFromPrev() == myHero.getX() - 15 && this.state == -1) {
+                        this.fall(myHero);
+                        moveTimeline[0].stop(); // Stop the timeline immediately
+                    } else {
+                        System.out.println("State = " + state);
+                        System.out.println("X coordinate = " + myHero.getX());
+                        System.out.printf("X coordinate Pillar= %f\n", targetPillar.getDistanceFromPrev() + SceneController.rectangles.get(0).getWidth());
+                        double newX = myHero.getX() + (targetX > currentX ? speed : -speed);
+                        myHero.setX(newX);
+                    }
                 })
         );
 
@@ -129,19 +152,19 @@ public class Hero {
 //        System.out.println("New" + targetPillar.getDistanceFromPrev());
 
         if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())){
-            moveTimeline.setOnFinished(event -> fall(myHero));
+            moveTimeline[0].setOnFinished(event -> fall(myHero));
 
             // Calculate the number of cycles based on the distance and speed
             int cycles = (int) (distanceToMove / this.speed);
-            moveTimeline.setCycleCount(cycles);
-            moveTimeline.play();
+            moveTimeline[0].setCycleCount(cycles);
+            moveTimeline[0].play();
         }
         else{
             double extramove = Math.abs(targetPillar.getWidth() - (stickLength - targetPillar.getDistanceFromPrev())) - 15;
             // Calculate the number of cycles based on the distance and speed
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
-            moveTimeline.setCycleCount(cycles);
-            moveTimeline.setOnFinished(event -> {
+            moveTimeline[0].setCycleCount(cycles);
+            moveTimeline[0].setOnFinished(event -> {
                 // Target pillar old
                 TranslateTransition shiftTransition = new TranslateTransition(Duration.millis(500), target);
                 // Calculate the translation distance
@@ -215,7 +238,7 @@ public class Hero {
                     System.out.println("Anchor is null");
                 }
             });
-            moveTimeline.play();
+            moveTimeline[0].play();
         }
     }
 
