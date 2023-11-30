@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
@@ -33,7 +34,7 @@ public class Hero {
         this.speed = speed;
         this.cherries = cherries;
         this.score = score;
-        this.stick = new Stick(0,90);
+        this.stick = new Stick(0, 90);
     }
 
     public int getScore() {
@@ -64,16 +65,16 @@ public class Hero {
         return cherries;
     }
 
-    public void dropStick(){
+    public void dropStick() {
     }
 
-    public void flipHero(ImageView myHero){
-        if (this.state == 1){
+    public void flipHero(ImageView myHero) {
+        if (this.state == 1) {
             double originalBottomY = myHero.getFitHeight();
             myHero.setScaleY(myHero.getScaleY() * -1);
             myHero.setLayoutY(myHero.getLayoutY() + originalBottomY);
             this.state = -1;
-        }else if (this.state == -1){
+        } else if (this.state == -1) {
             double originalBottomY = myHero.getFitHeight();
             myHero.setScaleY(myHero.getScaleY() * -1);
             myHero.setLayoutY(myHero.getLayoutY() - originalBottomY);
@@ -81,7 +82,7 @@ public class Hero {
         }
     }
 
-    public void fall(ImageView myHero){
+    public void fall(ImageView myHero) {
         double fallDistance = 300.0; // You can adjust this value based on how far you want the hero to fall
         double speed = 2.0;
 
@@ -122,11 +123,11 @@ public class Hero {
         fallTimeline.play();
     }
 
-    public void revive(){
+    public void revive() {
     }
 
-    public void move(ImageView myHero, Line stickLine, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton){
-        double stickLength = Math.sqrt(Math.pow(stickLine.getEndX()-stickLine.getStartX(),2) + Math.pow(stickLine.getEndY()-stickLine.getStartY(),2));
+    public void move(ImageView myHero, Line stickLine, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton) {
+        double stickLength = Math.sqrt(Math.pow(stickLine.getEndX() - stickLine.getStartX(), 2) + Math.pow(stickLine.getEndY() - stickLine.getStartY(), 2));
         double targetX = myHero.getX() + stickLength + 15;
         double currentX = myHero.getX();
 
@@ -150,20 +151,20 @@ public class Hero {
 //        System.out.println(stickLength);
 //        System.out.println("New" + targetPillar.getDistanceFromPrev());
 
-        if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())){
+        if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())) {
             moveTimeline[0].setOnFinished(event -> fall(myHero));
 
             // Calculate the number of cycles based on the distance and speed
             int cycles = (int) (distanceToMove / this.speed);
             moveTimeline[0].setCycleCount(cycles);
             moveTimeline[0].play();
-        }
-        else{
+        } else {
             double extramove = Math.abs(targetPillar.getWidth() - (stickLength - targetPillar.getDistanceFromPrev())) - 15;
             // Calculate the number of cycles based on the distance and speed
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
             moveTimeline[0].setCycleCount(cycles);
             moveTimeline[0].setOnFinished(event -> {
+                int score = 0;
                 scoreButton.setText(String.valueOf(Integer.parseInt(scoreButton.getText()) + 1));
                 this.score += 1;
 //                this.currentX = myHero.getX();
@@ -217,22 +218,34 @@ public class Hero {
                     anchor.getChildren().add(nextPillar);
                     SceneController.rectangles.add(nextPillar);
                     SceneController.pillarno++;
+                    Image cherryImage = new Image("cherry.png");
+                    ImageView cherry = new ImageView(cherryImage);
+                    anchor.getChildren().add(cherry);
+                    cherry.setFitHeight(25);
+                    cherry.setFitWidth(27);
+                    cherry.setLayoutX(anchor.getWidth());
+                    cherry.setLayoutY(220);
                     TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
-                    double extra =  9 + Math.random() * 180;
-                    transition.setToX(-(anchor.getWidth()-(SceneController.rectangles.get(0).getWidth() + extra)));
+                    double extra = 9 + Math.random() * 180;
+                    double cherryExtra = 9 + Math.random() * (targetPillar.getDistanceFromPrev() - 15);
+                    transition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + extra)));
+                    TranslateTransition cherryTransition = new TranslateTransition(Duration.millis(500), cherry);
+//                    double cherryMove = prevPillar.getX() + Math.random() * ()
+                    cherryTransition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + cherryExtra)));
+                    cherryTransition.play();
 //                    System.out.println("Old" + extra);
-                    Pillar newPillar = new Pillar(width,width/2,extra);
+                    Pillar newPillar = new Pillar(width, width / 2, extra);
                     SceneController.pillars.add(newPillar);
                     transition.play();
                     Stick stick = new Stick(0, 0);
-                    Line line = new Line(SceneController.rectangles.get(0).getWidth()-5,target.getLayoutY(),SceneController.rectangles.get(0).getWidth()-5,target.getLayoutY()-15);
+                    Line line = new Line(SceneController.rectangles.get(0).getWidth() - 5, target.getLayoutY(), SceneController.rectangles.get(0).getWidth() - 5, target.getLayoutY() - 15);
                     line.setOpacity(0);
                     line.setStrokeWidth(4.0);
-                   // anchor.getChildren().remove(stickLine);
+                    // anchor.getChildren().remove(stickLine);
                     anchor.getChildren().add(line);
                     SceneController.stickno++;
 //                    System.out.println(SceneController.stickno);
-                    SceneController.sticklines.add(SceneController.stickno,line);
+                    SceneController.sticklines.add(SceneController.stickno, line);
                     SceneController.sticks.add(stick);
 
                 } else {
@@ -244,7 +257,7 @@ public class Hero {
         }
     }
 
-    public boolean hitRedCentre(Pillar p){
+    public boolean hitRedCentre(Pillar p) {
 
         return false;
     }
