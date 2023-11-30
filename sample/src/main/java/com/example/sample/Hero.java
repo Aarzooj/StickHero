@@ -6,6 +6,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
@@ -124,7 +125,7 @@ public class Hero {
     public void revive(){
     }
 
-    public void move(ImageView myHero, Line stickLine, Pillar targetPillar, Rectangle target, Rectangle prevPillar){
+    public void move(ImageView myHero, Line stickLine, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton){
         double stickLength = Math.sqrt(Math.pow(stickLine.getEndX()-stickLine.getStartX(),2) + Math.pow(stickLine.getEndY()-stickLine.getStartY(),2));
         double targetX = myHero.getX() + stickLength + 15;
         double currentX = myHero.getX();
@@ -163,6 +164,8 @@ public class Hero {
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
             moveTimeline[0].setCycleCount(cycles);
             moveTimeline[0].setOnFinished(event -> {
+                scoreButton.setText(String.valueOf(Integer.parseInt(scoreButton.getText()) + 1));
+                this.score += 1;
 //                this.currentX = myHero.getX();
                 // Target pillar old
                 TranslateTransition shiftTransition = new TranslateTransition(Duration.millis(500), target);

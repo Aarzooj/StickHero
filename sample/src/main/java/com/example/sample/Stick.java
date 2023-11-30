@@ -2,15 +2,12 @@ package com.example.sample;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-
-import java.util.ArrayList;
-
-import static com.example.sample.SceneController.sticks;
 
 public class Stick {
     private double length;
@@ -41,7 +38,7 @@ public class Stick {
         this.rotation = rotation;
     }
 
-    public void rotateStick(Line stickLine, Hero hero, ImageView myHero, Pillar targetPillar, Rectangle target, Rectangle prevPillar){
+    public void rotateStick(Line stickLine, Hero hero, ImageView myHero, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton){
         double deltaX = stickLine.getEndX() - stickLine.getStartX();
         double deltaY = stickLine.getEndY() - stickLine.getStartY();
         double angle = Math.atan2(deltaY, deltaX);
@@ -54,7 +51,7 @@ public class Stick {
                 new KeyFrame(Duration.millis(5), e -> rotateStick(degrees / 100,stickLine))
         );
         rotationTimeline.setCycleCount(100);
-        rotationTimeline.setOnFinished(e -> hero.move(myHero,stickLine,targetPillar,target,prevPillar));
+        rotationTimeline.setOnFinished(e -> hero.move(myHero,stickLine,targetPillar,target,prevPillar,scoreButton));
         rotationTimeline.play();
     }
     private void rotateStick(double angle, Line stickLine) {

@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="anchor" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" prefHeight="412.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sample.SceneController">
    <children>
-      <ImageView fitHeight="407.0" fitWidth="600.0" layoutY="4.0">
+      <ImageView fitHeight="412.0" fitWidth="600.0" layoutY="-1.0">
          <image>
             <Image url="@assets/bg3.png" />
          </image>
@@ -22,7 +22,7 @@
             <Image url="@assets/hero1.png" />
          </image>
       </ImageView>
-      <Button layoutX="265.0" layoutY="14.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="68.0" style="-fx-background-color: grey;" text="0" textFill="WHITE">
+      <Button fx:id="scoreButton" layoutX="265.0" layoutY="14.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="68.0" style="-fx-background-color: grey;" text="0" textFill="WHITE">
          <font>
             <Font size="30.0" />
          </font>
