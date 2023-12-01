@@ -30,7 +30,7 @@ public class SceneController {
     private Timeline timeline;
 
     @FXML
-    public Button scoreButton;
+    private Button scoreButton;
 
     @FXML
     private ImageView myHero;
@@ -39,6 +39,9 @@ public class SceneController {
     private Rectangle nextPillar;
 
     private int stickDown = 0;
+
+    @FXML
+    private Button cherryCount;
 
     private Pillar targetPillar;
     private Stage stage;
@@ -56,6 +59,7 @@ public class SceneController {
     public static ArrayList<Rectangle> rectangles = new ArrayList<>();
     public static ArrayList<Stick> sticks = new ArrayList<>();
     public static ArrayList<Line> sticklines = new ArrayList<>();
+    public static ArrayList<ImageView> cherries = new ArrayList<>();
 
 
     public void switchToPlayScreen(ActionEvent event) throws IOException{
@@ -116,7 +120,7 @@ public class SceneController {
 
         double stickLength = Math.sqrt(Math.pow(sticklines.get(stickno).getEndX()-sticklines.get(stickno).getStartX(),2) + Math.pow(sticklines.get(stickno).getEndY()-sticklines.get(stickno).getStartY(),2));
         sticks.get(stickno).setLength(stickLength);
-        sticks.get(stickno).rotateStick(sticklines.get(stickno),hero,myHero,pillars.get(pillarno+1),rectangles.get(pillarno+1),rectangles.get(pillarno),scoreButton);
+        sticks.get(stickno).rotateStick(sticklines.get(stickno),hero,myHero,pillars.get(pillarno+1),rectangles.get(pillarno+1),rectangles.get(pillarno),scoreButton,cherryCount);
     }
 
     public void increaseStickLength(ActionEvent event){

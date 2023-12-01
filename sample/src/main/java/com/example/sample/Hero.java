@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Hero {
     private int state;
@@ -23,7 +24,7 @@ public class Hero {
     private int cherries;
     private int score;
     private Stick stick;
-//    private double currentX = 0;
+    private int cherriesCollected = 0;
 
     public void collectCherries(int cherries) {
         this.cherries = cherries;
@@ -126,7 +127,7 @@ public class Hero {
     public void revive() {
     }
 
-    public void move(ImageView myHero, Line stickLine, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton) {
+    public void move(ImageView myHero, Line stickLine, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton, Button cherryCount) {
         double stickLength = Math.sqrt(Math.pow(stickLine.getEndX() - stickLine.getStartX(), 2) + Math.pow(stickLine.getEndY() - stickLine.getStartY(), 2));
         double targetX = myHero.getX() + stickLength + 15;
         double currentX = myHero.getX();
@@ -144,6 +145,13 @@ public class Hero {
                     } else {
                         double newX = myHero.getX() + (targetX > currentX ? speed : -speed);
                         myHero.setX(newX);
+                    }
+                    if (!SceneController.cherries.isEmpty()){
+                        ImageView collectedCherry = SceneController.cherries.get(SceneController.cherries.size() - 1);
+                        if (this.state == -1 && myHero.getBoundsInParent().intersects(collectedCherry.getBoundsInParent())){
+                            cherriesCollected = 1;
+                            collectedCherry.setX(collectedCherry.getX() - (targetPillar.getDistanceFromPrev() + targetPillar.getWidth() + SceneController.rectangles.get(0).getWidth()));
+                        }
                     }
                 })
         );
@@ -164,10 +172,19 @@ public class Hero {
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
             moveTimeline[0].setCycleCount(cycles);
             moveTimeline[0].setOnFinished(event -> {
-                int score = 0;
                 scoreButton.setText(String.valueOf(Integer.parseInt(scoreButton.getText()) + 1));
                 this.score += 1;
-//                this.currentX = myHero.getX();
+                if (cherriesCollected == 0 && !SceneController.cherries.isEmpty()){
+                    ImageView uncollectedCherry = SceneController.cherries.get(SceneController.cherries.size() - 1);
+                    TranslateTransition cherryExit = new TranslateTransition(Duration.millis(500),uncollectedCherry);
+                    double cherryDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth() + SceneController.rectangles.get(0).getWidth();
+                    cherryExit.setByX(-cherryDistance);
+                    cherryExit.play();
+                }else if (cherriesCollected == 1){
+                    cherryCount.setText(String.valueOf(Integer.parseInt(cherryCount.getText()) + 1));
+                    this.cherries += 1;
+                    cherriesCollected = 0;
+                }
                 // Target pillar old
                 TranslateTransition shiftTransition = new TranslateTransition(Duration.millis(500), target);
                 // Calculate the translation distance
@@ -218,21 +235,28 @@ public class Hero {
                     anchor.getChildren().add(nextPillar);
                     SceneController.rectangles.add(nextPillar);
                     SceneController.pillarno++;
-                    Image cherryImage = new Image("cherry.png");
-                    ImageView cherry = new ImageView(cherryImage);
-                    anchor.getChildren().add(cherry);
-                    cherry.setFitHeight(25);
-                    cherry.setFitWidth(27);
-                    cherry.setLayoutX(anchor.getWidth());
-                    cherry.setLayoutY(220);
                     TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
                     double extra = 9 + Math.random() * 180;
-                    double cherryExtra = 9 + Math.random() * (targetPillar.getDistanceFromPrev() - 15);
+                    Random random = new Random();
+                    // Generate a random number, either 0 or 1
+                    int generateCherry = random.nextInt(2);
+//                    System.out.printf("Extra: %f Flag: %d\n",extra,generateCherry);
+                    if (extra > 50 && generateCherry == 1){
+                        Image cherryImage = new Image("cherry.png");
+                        ImageView cherry = new ImageView(cherryImage);
+                        anchor.getChildren().add(cherry);
+                        cherry.setFitHeight(25);
+                        cherry.setFitWidth(27);
+                        cherry.setLayoutX(anchor.getWidth());
+                        cherry.setLayoutY(220);
+                        double cherryExtra = 13 + Math.random() * (extra - 13);
+//                        System.out.println("Cherry Extra: " + cherryExtra);
+                        TranslateTransition cherryTransition = new TranslateTransition(Duration.millis(500), cherry);
+                        cherryTransition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + cherryExtra) + 25));
+                        cherryTransition.play();
+                        SceneController.cherries.add(cherry);
+                    }
                     transition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + extra)));
-                    TranslateTransition cherryTransition = new TranslateTransition(Duration.millis(500), cherry);
-//                    double cherryMove = prevPillar.getX() + Math.random() * ()
-                    cherryTransition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + cherryExtra)));
-                    cherryTransition.play();
 //                    System.out.println("Old" + extra);
                     Pillar newPillar = new Pillar(width, width / 2, extra);
                     SceneController.pillars.add(newPillar);

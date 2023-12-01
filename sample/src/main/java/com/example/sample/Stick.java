@@ -38,7 +38,7 @@ public class Stick {
         this.rotation = rotation;
     }
 
-    public void rotateStick(Line stickLine, Hero hero, ImageView myHero, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton){
+    public void rotateStick(Line stickLine, Hero hero, ImageView myHero, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton, Button cherryCount){
         double deltaX = stickLine.getEndX() - stickLine.getStartX();
         double deltaY = stickLine.getEndY() - stickLine.getStartY();
         double angle = Math.atan2(deltaY, deltaX);
@@ -51,7 +51,7 @@ public class Stick {
                 new KeyFrame(Duration.millis(5), e -> rotateStick(degrees / 100,stickLine))
         );
         rotationTimeline.setCycleCount(100);
-        rotationTimeline.setOnFinished(e -> hero.move(myHero,stickLine,targetPillar,target,prevPillar,scoreButton));
+        rotationTimeline.setOnFinished(e -> hero.move(myHero,stickLine,targetPillar,target,prevPillar,scoreButton,cherryCount));
         rotationTimeline.play();
     }
     private void rotateStick(double angle, Line stickLine) {

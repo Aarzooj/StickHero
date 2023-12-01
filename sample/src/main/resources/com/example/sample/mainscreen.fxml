@@ -32,7 +32,7 @@
             <Image url="@assets/cherry.png" />
          </image>
       </ImageView>
-      <Button blendMode="DARKEN" layoutX="508.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="36.0" style="-fx-background-color: transparent;" text="0" textFill="#180a0a">
+      <Button fx:id="cherryCount" blendMode="DARKEN" layoutX="500.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="44.0" style="-fx-background-color: transparent;" text="0" textFill="#180a0a">
          <font>
             <Font size="11.0" />
          </font>
