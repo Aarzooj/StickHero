@@ -249,7 +249,7 @@ public class Hero {
                         cherry.setFitWidth(27);
                         cherry.setLayoutX(anchor.getWidth());
                         cherry.setLayoutY(220);
-                        double cherryExtra = 13 + Math.random() * (extra - 13);
+                        double cherryExtra = 18 + Math.random() * (extra - 18);
 //                        System.out.println("Cherry Extra: " + cherryExtra);
                         TranslateTransition cherryTransition = new TranslateTransition(Duration.millis(500), cherry);
                         cherryTransition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + cherryExtra) + 25));
