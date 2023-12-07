@@ -63,7 +63,34 @@ public class SceneController {
 
 
     public void switchToPlayScreen(ActionEvent event) throws IOException{
+        stickno = 0;
+        pillarno = 0;
+        sticks.clear();
+        sticklines.clear();
+        rectangles.clear();
+        cherries.clear();
+        pillars.clear();
+        stickDown = 0;
         MainMenu.play(event);
+    }
+    public void restartGame(MouseEvent event) throws IOException{
+        stickno = 0;
+        pillarno = 0;
+        sticks.clear();
+        sticklines.clear();
+        rectangles.clear();
+        cherries.clear();
+        pillars.clear();
+        stickDown = 0;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("mainscreen.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void switchToHomeScreen(MouseEvent event) throws IOException{
+        PauseMenu pause = new PauseMenu();
+        pause.returntohome(event);
     }
 
     public void switchToPauseScreen(MouseEvent event) throws IOException{
