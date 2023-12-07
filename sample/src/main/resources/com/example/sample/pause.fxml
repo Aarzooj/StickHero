@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -14,29 +15,62 @@
             <Image url="@assets/bg3.png" />
          </image>
       </ImageView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="410.0" opacity="0.48" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKGRAY" height="111.0" layoutX="85.0" layoutY="143.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="112.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKGRAY" height="111.0" layoutX="239.0" layoutY="143.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="112.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DARKGRAY" height="111.0" layoutX="392.0" layoutY="140.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="112.0" />
-      <ImageView fitHeight="105.0" fitWidth="106.0" layoutX="88.0" layoutY="143.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="105.0" layoutX="177.0" layoutY="148.0" stroke="BLACK" strokeDashOffset="10.0" strokeLineJoin="ROUND" strokeMiterLimit="50.0" strokeType="INSIDE" strokeWidth="0.0" width="106.0">
+         <effect>
+            <Glow>
+               <input>
+                  <DropShadow />
+               </input>
+            </Glow>
+         </effect>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="105.0" layoutX="299.0" layoutY="147.0" stroke="BLACK" strokeDashOffset="10.0" strokeLineJoin="ROUND" strokeMiterLimit="50.0" strokeType="INSIDE" strokeWidth="0.0" width="106.0">
+         <effect>
+            <Glow>
+               <input>
+                  <DropShadow />
+               </input>
+            </Glow>
+         </effect>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="105.0" layoutX="177.0" layoutY="267.0" stroke="BLACK" strokeDashOffset="10.0" strokeLineJoin="ROUND" strokeMiterLimit="50.0" strokeType="INSIDE" strokeWidth="0.0" width="106.0">
+         <effect>
+            <Glow>
+               <input>
+                  <DropShadow />
+               </input>
+            </Glow>
+         </effect>
+      </Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="105.0" layoutX="299.0" layoutY="267.0" stroke="BLACK" strokeDashOffset="10.0" strokeLineJoin="ROUND" strokeMiterLimit="50.0" strokeType="INSIDE" strokeWidth="0.0" width="106.0">
+         <effect>
+            <Glow>
+               <input>
+                  <DropShadow />
+               </input>
+            </Glow>
+         </effect>
+      </Rectangle>
+      <ImageView fitHeight="94.0" fitWidth="98.0" layoutX="181.0" layoutY="153.0">
          <image>
             <Image url="@assets/home.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="94.0" fitWidth="106.0" layoutX="242.0" layoutY="152.0">
+      <ImageView fitHeight="85.0" fitWidth="98.0" layoutX="303.0" layoutY="277.0">
          <image>
             <Image url="@assets/reload.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="135.0" fitWidth="141.0" layoutX="378.0" layoutY="132.0">
+      <ImageView fitHeight="148.0" fitWidth="150.0" layoutX="150.0" layoutY="252.0">
          <image>
             <Image url="@assets/restart.png" />
          </image>
       </ImageView>
-      <Button blendMode="DARKEN" layoutX="120.0" layoutY="26.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="360.0" text="GAME PAUSED">
-         <font>
-            <Font name="System Bold" size="36.0" />
-         </font>
-      </Button>
+      <ImageView blendMode="DARKEN" fitHeight="148.0" fitWidth="314.0" layoutX="142.0">
+         <image>
+            <Image url="@assets/pause1.png" />
+         </image>
+      </ImageView>
+      <Polygon fill="WHITE" layoutX="362.0" layoutY="199.0" points="-50.0, 40.0, 31.340457916259766, 41.08114242553711, -5.078388214111328, -41.5216178894043" rotate="90.0" stroke="BLACK" strokeType="INSIDE" />
    </children>
 </AnchorPane>
