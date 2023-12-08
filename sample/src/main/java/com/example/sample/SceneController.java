@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -28,6 +29,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class SceneController{
+    @FXML
+    public Label scoreLabel;
+    @FXML
+    public Label highLabel;
     @FXML
     private Line stickLine;
     private Stick stick;

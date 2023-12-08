@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -16,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Random;
 
 public class Hero {
@@ -110,7 +110,14 @@ public class Hero {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("gameover.fxml"));
                 Parent gameoverRoot = loader.load();
                 Scene gameoverScene = new Scene(gameoverRoot);
+                Label scoreLabel = (Label) gameoverRoot.lookup("#scoreLabel");
+                Label highLabel = (Label) gameoverRoot.lookup("#highLabel");
+                Button cherryCount = (Button) gameoverRoot.lookup("#cherryCount");
 
+                // Set the values
+                scoreLabel.setText(String.valueOf(score));
+                highLabel.setText(String.valueOf(score));
+                cherryCount.setText(String.valueOf(cherries));
                 // Get the current stage
                 Stage currentStage = (Stage) myHero.getScene().getWindow();
 
