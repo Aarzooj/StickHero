@@ -16,22 +16,19 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Random;
 
-public class Hero {
+public class Hero implements Serializable {
     private int state;
     private double speed;
     private int cherries;
     private int score;
     private Stick stick;
     private int cherriesCollected = 0;
-    final Timeline[] moveTimeline = new Timeline[1];
-    public TranslateTransition cherryExit,shiftTransition,heroTransition,stickTransition,prevTransition,transition,cherryTransition;
-    Timeline fallTimeline;
+    private final transient Timeline[] moveTimeline = new Timeline[1];
+    public transient TranslateTransition cherryExit,shiftTransition,heroTransition,stickTransition,prevTransition,transition,cherryTransition;
+    public transient Timeline fallTimeline;
 
     public void collectCherries(int cherries) {
         this.cherries = cherries;

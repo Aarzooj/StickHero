@@ -278,6 +278,13 @@ public class SceneController {
         savedAlert.setTitle("Game Saved");
         savedAlert.setHeaderText(null);
         savedAlert.setContentText("Your game has been saved.");
+        ObjectOutputStream out3 = null;
+        try {
+            out3 = new ObjectOutputStream(new FileOutputStream("gamestate.txt"));
+            out3.writeObject(hero);
+        }finally {
+            out3.close();
+        }
 
         // Show alert for 5 seconds
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ae -> savedAlert.hide()));
@@ -305,28 +312,25 @@ public class SceneController {
 
     public void loadSaved(MouseEvent event) throws IOException {
         if (gameSaved == 1) {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("loaded.fxml")));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("mainscreen.fxml")));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-            System.out.println("Game resumed");
-            Rectangle nextPillar = rectangles.get(rectangles.size() - 2);
-            AnchorPane anchor = (AnchorPane) root;
-            anchor.getChildren().add(nextPillar);
-            Rectangle nextPillar1 = rectangles.get(rectangles.size() - 1);
-            anchor.getChildren().add(nextPillar1);
-            if (cherryGenerate == 1) {
-                anchor.getChildren().add(cherries.get(cherries.size() - 1));
+            System.out.println("Game Loaded");
+            ObjectInputStream in3 = null;
+            Hero hero = null;
+            try{
+                in3 = new ObjectInputStream(new FileInputStream("gamestate.txt"));
+                hero = (Hero) in3.readObject();
+
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
-            Stick stick = new Stick(0, 0);
-            Line line = new Line(SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY(), SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY() - 15);
-            line.setOpacity(0);
-            line.setStrokeWidth(4.0);
-            anchor.getChildren().add(line);
-            SceneController.stickno++;
-            SceneController.sticklines.add(SceneController.stickno, line);
-            SceneController.sticks.add(stick);
+            Button cherryCount = (Button) root.lookup("#cherryCount");
+            Button scoreButton = (Button) root.lookup("#scoreButton");
+            cherryCount.setText(String.valueOf(hero.getCherries()));
+            scoreButton.setText(String.valueOf(hero.getScore()));
         } else {
             Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
             savedAlert.setTitle("No Loaded Games");

@@ -10,7 +10,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
-public class Stick {
+import java.io.Serializable;
+
+public class Stick implements Serializable {
     private double length;
     private float rotation;
     public Timeline rotationTimeline;
