@@ -1,6 +1,7 @@
 package com.example.sample;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
@@ -32,6 +34,12 @@ public class SceneController {
 
     @FXML
     private Button scoreButton;
+
+    @FXML
+    private Circle circle1;
+
+    @FXML
+    private Circle circle2;
 
     @FXML
     private ImageView myHero;
@@ -74,6 +82,39 @@ public class SceneController {
         stickDown = 0;
         MainMenu.play(event);
     }
+
+    public void increaseCircle(MouseEvent event){
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle1);
+        scaleTransition.setToX(1.1);
+        scaleTransition.setToY(1.1);
+        // Play the scale animation
+        scaleTransition.play();
+    };
+
+    public void increaseCircle1(MouseEvent event){
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle2);
+        scaleTransition.setToX(1.1);
+        scaleTransition.setToY(1.1);
+        // Play the scale animation
+        scaleTransition.play();
+    };
+
+    public void decreaseCircle(MouseEvent event) {
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle1);
+        scaleTransition.setToX(1.0);
+        scaleTransition.setToY(1.0);
+        // Play the reverse scale animation
+        scaleTransition.play();
+    }
+
+    public void decreaseCircle1(MouseEvent event) {
+        ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle2);
+        scaleTransition.setToX(1.0);
+        scaleTransition.setToY(1.0);
+        // Play the reverse scale animation
+        scaleTransition.play();
+    }
+
     public void restartGame(MouseEvent event) throws IOException{
         stickno = 0;
         pillarno = 0;

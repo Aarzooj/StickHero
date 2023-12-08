@@ -15,8 +15,8 @@
             <Image url="@assets/bg2.png" />
          </image>
       </ImageView>
-      <Circle fill="#ff1f1f" layoutX="184.0" layoutY="164.0" radius="40.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-      <Button fx:id="playButton" layoutX="154.0" layoutY="146.0" mnemonicParsing="false" onAction="#switchToPlayScreen" style="-fx-background-color: null;" text="PLAY" textAlignment="CENTER" textFill="WHITE">
+      <Circle fx:id="circle1" fill="#ff1f1f" layoutX="184.0" layoutY="164.0" onMouseEntered="#increaseCircle" onMouseExited="#decreaseCircle" radius="40.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Button fx:id="playButton" layoutX="144.0" layoutY="137.0" mnemonicParsing="false" onAction="#switchToPlayScreen" prefHeight="54.0" prefWidth="80.0" style="-fx-background-color: null;" text="PLAY" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Button>
@@ -26,8 +26,8 @@
             <Image url="@assets/hero1.png" />
          </image>
       </ImageView>
-      <Circle fill="#ff1f1f" layoutX="409.0" layoutY="164.0" radius="40.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-      <Button layoutX="378.0" layoutY="146.0" mnemonicParsing="false" style="-fx-background-color: null;" text="LOAD" textAlignment="CENTER" textFill="WHITE">
+      <Circle fx:id="circle2" fill="#ff1f1f" layoutX="409.0" layoutY="164.0" onMouseEntered="#increaseCircle1" onMouseExited="#decreaseCircle1" radius="40.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Button layoutX="376.0" layoutY="140.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="66.0" style="-fx-background-color: null;" text="LOAD" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Button>
