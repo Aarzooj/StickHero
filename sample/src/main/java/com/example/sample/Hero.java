@@ -112,7 +112,7 @@ public class Hero {
         FileInputStream in = null;
         try{
             in = new FileInputStream("high_score.txt");
-            c = in.read();
+            c = Math.max(in.read(),0);
             if (this.score > c){
                 FileOutputStream out = null;
                 try {
@@ -142,6 +142,22 @@ public class Hero {
         int finalC1 = c;
         //System.out.println(finalC1);
         fallTimeline.setOnFinished(event -> {
+            int total_cherries;
+            FileInputStream in1 = null;
+            try {
+                in1 = new FileInputStream("cherry.txt");
+                int a = Math.max(in1.read(),0);
+
+                System.out.println("a"+a);
+                total_cherries = a + this.cherries;
+                FileOutputStream out1 = null;
+                out1 = new FileOutputStream("cherry.txt");
+                out1.write(total_cherries);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             // Load the gameover.fxml scene
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("gameover.fxml"));
@@ -154,7 +170,7 @@ public class Hero {
                 // Set the values
                 scoreLabel.setText(String.valueOf(score));
                 highLabel.setText(String.valueOf(finalC1));
-                cherryCount.setText(String.valueOf(cherries));
+                cherryCount.setText(String.valueOf(total_cherries));
                 // Get the current stage
                 Stage currentStage = (Stage) myHero.getScene().getWindow();
 
