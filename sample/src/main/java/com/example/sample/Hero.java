@@ -16,6 +16,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
@@ -87,7 +90,7 @@ public class Hero {
         }
     }
 
-    public void fall(ImageView myHero) {
+    public void fall(ImageView myHero) throws IOException {
         double fallDistance = 300.0; // You can adjust this value based on how far you want the hero to fall
         double speed = 2.0;
 
@@ -104,6 +107,40 @@ public class Hero {
                     myHero.setY(newY);
                 })
         );
+        int c;
+//        int finalC = this.score;
+        FileInputStream in = null;
+        try{
+            in = new FileInputStream("high_score.txt");
+            c = in.read();
+            if (this.score > c){
+                FileOutputStream out = null;
+                try {
+                    System.out.println(c);
+                    System.out.println(this.score);
+                    out = new FileOutputStream("high_score.txt");
+//                    out.write("".getBytes());
+                    out.write(this.score);
+//                    finalC = c;
+                    c = this.score;
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                finally {
+                    out.close();
+                }
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            in.close();
+        }
+        int finalC1 = c;
+        //System.out.println(finalC1);
         fallTimeline.setOnFinished(event -> {
             // Load the gameover.fxml scene
             try {
@@ -116,7 +153,7 @@ public class Hero {
 
                 // Set the values
                 scoreLabel.setText(String.valueOf(score));
-                highLabel.setText(String.valueOf(score));
+                highLabel.setText(String.valueOf(finalC1));
                 cherryCount.setText(String.valueOf(cherries));
                 // Get the current stage
                 Stage currentStage = (Stage) myHero.getScene().getWindow();
@@ -150,7 +187,11 @@ public class Hero {
         moveTimeline[0] = new Timeline(
                 new KeyFrame(Duration.millis(5), e -> {
                     if (myHero.getBoundsInParent().intersects(target.getBoundsInParent()) && this.state == -1) {
-                        this.fall(myHero);
+                        try {
+                            this.fall(myHero);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         moveTimeline[0].stop(); // Stop the timeline immediately
                     } else {
                         double newX = myHero.getX() + (targetX > currentX ? speed : -speed);
@@ -170,7 +211,13 @@ public class Hero {
 //        System.out.println("New" + targetPillar.getDistanceFromPrev());
 
         if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())) {
-            moveTimeline[0].setOnFinished(event -> fall(myHero));
+            moveTimeline[0].setOnFinished(event -> {
+                try {
+                    fall(myHero);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
             // Calculate the number of cycles based on the distance and speed
             int cycles = (int) (distanceToMove / this.speed);
