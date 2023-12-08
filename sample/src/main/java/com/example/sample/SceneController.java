@@ -38,7 +38,6 @@ public class SceneController {
     private Line stickLine;
     private Stick stick;
     private Hero hero;
-    private static int gameSaved = 0;
     private static int gamePaused = 0;
     private Timeline timeline;
 
@@ -273,7 +272,6 @@ public class SceneController {
     }
 
     public void saveGame(MouseEvent event) throws IOException {
-        gameSaved = 1;
         Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
         savedAlert.setTitle("Game Saved");
         savedAlert.setHeaderText(null);
@@ -311,7 +309,27 @@ public class SceneController {
     }
 
     public void loadSaved(MouseEvent event) throws IOException {
-        if (gameSaved == 1) {
+        FileInputStream in = null;
+        int state = 0;
+        try{
+            in = new FileInputStream("gamestate.txt");
+            state = in.read();
+        }catch (FileNotFoundException e){
+            throw new RuntimeException(e);
+        }finally {
+            in.close();
+        }
+        if (state != -1) {
+            stickno = 0;
+            pillarno = 0;
+            sticks.clear();
+            sticklines.clear();
+            rectangles.clear();
+            cherries.clear();
+            pillars.clear();
+            stickDown = 0;
+            gamePaused = 0;
+            gameResumed = 0;
             Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("mainscreen.fxml")));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
