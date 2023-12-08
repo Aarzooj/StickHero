@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
@@ -32,6 +33,7 @@ public class SceneController{
     private Stick stick;
     private Hero hero;
     private static int gameSaved = 0;
+    private static int gamePaused = 0;
     private Timeline timeline;
 
     @FXML
@@ -58,6 +60,31 @@ public class SceneController{
     private Stage stage;
     private Scene scene;
 
+    @FXML
+    private Rectangle homeRectangle;
+    @FXML
+    private Rectangle resumeRectangle;
+    @FXML
+    private Rectangle restartRectangle;
+    @FXML
+    private Rectangle saveRectangle;
+    @FXML
+    private ImageView homeIcon;
+    @FXML
+    private ImageView saveIcon;
+    @FXML
+    private ImageView restartIcon;
+    @FXML
+    private ImageView pauseGame;
+    @FXML
+    private Polygon resumeIcon;
+    @FXML
+    private Button restartButton;
+    @FXML
+    private ImageView pauseIcon;
+    @FXML
+    private Button pauseButton;
+
     public static int stickno = 0;
     public static int pillarno = 0;
 
@@ -66,6 +93,7 @@ public class SceneController{
     public static int cherryGenerate = 0;
 
     private Pillar initialPillar;
+    private int gameResumed = 0;
 
     public static ArrayList<Pillar> pillars = new ArrayList<>();
     public static ArrayList<Rectangle> rectangles = new ArrayList<>();
@@ -83,6 +111,8 @@ public class SceneController{
         cherries.clear();
         pillars.clear();
         stickDown = 0;
+        gamePaused = 0;
+        gameResumed = 0;
         MainMenu.play(event);
     }
 
@@ -172,32 +202,57 @@ public class SceneController{
     }
 
     public void resumeGame(MouseEvent event) throws IOException{
-        Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("loaded.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-        System.out.println("Game resumed");
-        Rectangle nextPillar = rectangles.get(rectangles.size()-2);
-        AnchorPane anchor = (AnchorPane)root;
-        anchor.getChildren().add(nextPillar);
-        Rectangle nextPillar1 = rectangles.get(rectangles.size()-1);
-        anchor.getChildren().add(nextPillar1);
-        if (cherryGenerate == 1){
-            anchor.getChildren().add(cherries.get(cherries.size()-1));
+        gameResumed = 1;
+        gamePaused = 0;
+        homeRectangle.setOpacity(0);
+        resumeRectangle.setOpacity(0);
+        restartRectangle.setOpacity(0);
+        saveRectangle.setOpacity(0);
+        homeIcon.setOpacity(0);
+        saveIcon.setOpacity(0);
+        restartIcon.setOpacity(0);
+        pauseGame.setOpacity(0);
+        resumeIcon.setOpacity(0);
+        restartButton.setOpacity(0);
+        homeRectangle.toBack();
+        resumeRectangle.toBack();
+        restartRectangle.toBack();
+        saveRectangle.toBack();
+        homeIcon.toBack();
+        saveIcon.toBack();
+        restartIcon.toBack();
+        pauseGame.toBack();
+        resumeIcon.toBack();
+        restartButton.toBack();
+        pauseIcon.setOpacity(1);
+//        rectangles.get(rectangles.size()-2).setOpacity(1);
+//        rectangles.get(rectangles.size()-1).setOpacity(1);
+        myHero.setOpacity(1);
+        scoreButton.setOpacity(1);
+        pauseButton.toFront();
+        pauseIcon.toFront();
+        if (rectangles.size() >= 2){
+            rectangles.get(rectangles.size()-2).toFront();
+            rectangles.get(rectangles.size()-1).toFront();
+        }else{
+            prevPillar.toFront();
+            nextPillar.toFront();
         }
-        Stick stick = new Stick(0, 0);
-        Line line = new Line(SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY(), SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY() - 15);
-        line.setOpacity(0);
-        line.setStrokeWidth(4.0);
-        anchor.getChildren().add(line);
-        SceneController.stickno++;
-        SceneController.sticklines.add(SceneController.stickno, line);
-        SceneController.sticks.add(stick);
-        System.out.println(hero.getCherries());
-        System.out.println(hero.getScore());
+        myHero.toFront();
+        scoreButton.toFront();
+        for (Line s:sticklines) {
+            s.toFront();
+        }
+        if (cherryGenerate == 1){
+            cherries.get(cherries.size() - 1).toFront();
+        }
+        for (Rectangle r:rectangles) {
+            r.toFront();
+        }
     }
     public void restartGame(MouseEvent event) throws IOException{
+        gamePaused = 0;
+        System.out.println("Restarting");
         stickno = 0;
         pillarno = 0;
         sticks.clear();
@@ -212,18 +267,57 @@ public class SceneController{
         stage.setScene(scene);
         stage.show();
     }
+
     public void switchToHomeScreen(MouseEvent event) throws IOException{
         PauseMenu pause = new PauseMenu();
         pause.returntohome(event);
     }
 
     public void switchToPauseScreen(MouseEvent event) throws IOException{
-        System.out.println("game saved");
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("pause.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        gamePaused = 1;
+        homeRectangle.setOpacity(1);
+        resumeRectangle.setOpacity(1);
+        restartRectangle.setOpacity(1);
+        saveRectangle.setOpacity(1);
+        homeIcon.setOpacity(1);
+        saveIcon.setOpacity(1);
+        restartIcon.setOpacity(1);
+        pauseGame.setOpacity(1);
+        resumeIcon.setOpacity(1);
+        homeRectangle.toFront();
+        resumeRectangle.toFront();
+        restartRectangle.toFront();
+        saveRectangle.toFront();
+        homeIcon.toFront();
+        saveIcon.toFront();
+        restartIcon.toFront();
+        pauseGame.toFront();
+        resumeIcon.toFront();
+        restartButton.toFront();
+        pauseIcon.setOpacity(0);
+//        rectangles.get(rectangles.size()-2).setOpacity(0);
+//        rectangles.get(rectangles.size()-1).setOpacity(0);
+        myHero.setOpacity(0);
+        scoreButton.setOpacity(0);
+        pauseIcon.toBack();
+        if (rectangles.size() >= 2){
+            rectangles.get(rectangles.size()-2).toBack();
+            rectangles.get(rectangles.size()-1).toBack();
+        }else{
+            prevPillar.toBack();
+            nextPillar.toBack();
+        }
+        myHero.toBack();
+        scoreButton.toBack();
+        for (Line s:sticklines) {
+            s.toBack();
+        }
+        for (Rectangle r:rectangles) {
+            r.toBack();
+        }
+        if (cherryGenerate == 1){
+            cherries.get(cherries.size() - 1).toBack();
+        }
     }
 
     @FXML
@@ -244,6 +338,15 @@ public class SceneController{
 
     @FXML
     public void handleMousePressed(MouseEvent event) {
+        if (gamePaused == 1){
+            return;
+        }
+        if (gameResumed == 1){
+            gameResumed = 0;
+            sticks.get(stickno).setRotation(0);
+            stickDown = 0;
+            return;
+        }
         if (sticks.get(stickno).getRotation() == 0){
             sticklines.get(stickno).setOpacity(1);
             stickDown = 1;

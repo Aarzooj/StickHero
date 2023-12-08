@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class Stick {
     private double length;
     private float rotation;
+    public Timeline rotationTimeline;
 
     public Stick(float length, float rotation) {
         this.length = length;
@@ -49,7 +50,7 @@ public class Stick {
         double degrees = -Math.toDegrees(angle);
 
         // Apply rotation transformation gradually
-        Timeline rotationTimeline = new Timeline(
+        rotationTimeline = new Timeline(
                 new KeyFrame(Duration.millis(5), e -> rotateStick(degrees / 100,stickLine))
         );
         rotationTimeline.setCycleCount(100);

@@ -26,6 +26,9 @@ public class Hero {
     private int score;
     private Stick stick;
     private int cherriesCollected = 0;
+    final Timeline[] moveTimeline = new Timeline[1];
+    public TranslateTransition cherryExit,shiftTransition,heroTransition,stickTransition,prevTransition,transition,cherryTransition;
+    Timeline fallTimeline;
 
     public void collectCherries(int cherries) {
         this.cherries = cherries;
@@ -95,7 +98,7 @@ public class Hero {
         double distanceToFall = Math.abs(targetY - myHero.getY());
 
         // Use a Timeline to gradually change the hero's Y position
-        Timeline fallTimeline = new Timeline(
+        fallTimeline = new Timeline(
                 new KeyFrame(Duration.millis(5), e -> {
                     double newY = myHero.getY() + speed;
                     myHero.setY(newY);
@@ -137,7 +140,6 @@ public class Hero {
         double distanceToMove = Math.abs(targetX - currentX);
 
         // Use a Timeline to gradually change the hero's X position
-        final Timeline[] moveTimeline = new Timeline[1];
         moveTimeline[0] = new Timeline(
                 new KeyFrame(Duration.millis(5), e -> {
                     if (myHero.getBoundsInParent().intersects(target.getBoundsInParent()) && this.state == -1) {
@@ -177,7 +179,7 @@ public class Hero {
                 this.score += 1;
                 if (cherriesCollected == 0 && !SceneController.cherries.isEmpty()){
                     ImageView uncollectedCherry = SceneController.cherries.get(SceneController.cherries.size() - 1);
-                    TranslateTransition cherryExit = new TranslateTransition(Duration.millis(500),uncollectedCherry);
+                    cherryExit = new TranslateTransition(Duration.millis(500),uncollectedCherry);
                     double cherryDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth() + SceneController.rectangles.get(0).getWidth();
                     cherryExit.setByX(-cherryDistance);
                     cherryExit.play();
@@ -187,7 +189,7 @@ public class Hero {
                     cherriesCollected = 0;
                 }
                 // Target pillar old
-                TranslateTransition shiftTransition = new TranslateTransition(Duration.millis(500), target);
+                shiftTransition = new TranslateTransition(Duration.millis(500), target);
                 // Calculate the translation distance
                 double translationDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
                 // Set the translation
@@ -195,7 +197,7 @@ public class Hero {
 
                 // Play the translation animation
                 shiftTransition.play();
-                TranslateTransition heroTransition = new TranslateTransition(Duration.millis(500), myHero);
+                heroTransition = new TranslateTransition(Duration.millis(500), myHero);
 
                 // Calculate the translation distance
                 double heroDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
@@ -205,7 +207,7 @@ public class Hero {
                 // Play the translation animation
                 heroTransition.play();
 
-                TranslateTransition stickTransition = new TranslateTransition(Duration.millis(500), stickLine);
+                stickTransition = new TranslateTransition(Duration.millis(500), stickLine);
 
                 // Calculate the translation distance
                 double stickDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
@@ -214,7 +216,7 @@ public class Hero {
 
                 // Play the translation animation
                 stickTransition.play();
-                TranslateTransition prevTransition = new TranslateTransition(Duration.millis(500), prevPillar);
+                prevTransition = new TranslateTransition(Duration.millis(500), prevPillar);
 
                 // Calculate the translation distance
                 // Base pillar
@@ -236,7 +238,7 @@ public class Hero {
                     anchor.getChildren().add(nextPillar);
                     SceneController.rectangles.add(nextPillar);
                     SceneController.pillarno++;
-                    TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
+                    transition = new TranslateTransition(Duration.millis(500), nextPillar);
                     double extra = 9 + Math.random() * 180;
                     SceneController.cherryGenerate = 0;
                     Random random = new Random();
@@ -253,7 +255,7 @@ public class Hero {
                         cherry.setLayoutY(220);
                         double cherryExtra = 18 + Math.random() * (extra - 18);
 //                        System.out.println("Cherry Extra: " + cherryExtra);
-                        TranslateTransition cherryTransition = new TranslateTransition(Duration.millis(500), cherry);
+                        cherryTransition = new TranslateTransition(Duration.millis(500), cherry);
                         cherryTransition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + cherryExtra) + 25));
                         cherryTransition.play();
                         SceneController.cherries.add(cherry);
