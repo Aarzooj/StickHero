@@ -2,6 +2,7 @@ package com.example.sample;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -109,6 +110,7 @@ public class SceneController {
         sticks.add(stick);
         sticklines.add(0,stickLine);
 
+        floatHeroImage();
 //        double width = nextPillar.getWidth();
 //        double prevDistance = nextPillar.getX() - (prevPillar.getX() + prevPillar.getWidth());
 //        targetPillar = new Pillar(width, width/2, prevDistance);
@@ -126,6 +128,16 @@ public class SceneController {
             stickDown = 0;
             hero.flipHero(myHero);
         }
+    }
+
+    public void floatHeroImage() {
+        // Create a TranslateTransition for the hero image
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(100), myHero);
+        translateTransition.setByY(2); // Adjust the value based on your preference
+        translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
+        translateTransition.setAutoReverse(true);
+        // Start the floating animation
+        translateTransition.play();
     }
 
     @FXML
