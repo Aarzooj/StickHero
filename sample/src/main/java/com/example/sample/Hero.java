@@ -142,6 +142,13 @@ public class Hero {
         int finalC1 = c;
         //System.out.println(finalC1);
         fallTimeline.setOnFinished(event -> {
+            FileOutputStream saveScore = null;
+            try{
+                saveScore = new FileOutputStream("score.txt");
+                saveScore.write(this.score);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             int total_cherries;
             FileInputStream in1 = null;
             try {

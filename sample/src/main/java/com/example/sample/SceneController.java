@@ -25,10 +25,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class SceneController{
+public class SceneController {
     @FXML
     public Label scoreLabel;
     @FXML
@@ -89,6 +90,34 @@ public class SceneController{
     private ImageView pauseIcon;
     @FXML
     private Button pauseButton;
+    @FXML
+    private Rectangle yesCherry1;
+    @FXML
+    private Label yesCherry2;
+    @FXML
+    private Rectangle yesCherry3;
+    @FXML
+    private Button yesCherry4;
+    @FXML
+    private Label yesCherry5;
+    @FXML
+    private Rectangle yesCherry6;
+    @FXML
+    private Button yesCherry7;
+    @FXML
+    private Label yesCherry8;
+    @FXML
+    private Rectangle noCherries1;
+    @FXML
+    private Label noCherries2;
+    @FXML
+    private Label noCherries3;
+    @FXML
+    private Rectangle noCherries4;
+    @FXML
+    private Button noCherries5;
+    @FXML
+    private Label noCherries6;
 
     public static int stickno = 0;
     public static int pillarno = 0;
@@ -107,7 +136,7 @@ public class SceneController{
     public static ArrayList<ImageView> cherries = new ArrayList<>();
 
 
-    public void switchToPlayScreen(ActionEvent event) throws IOException{
+    public void switchToPlayScreen(ActionEvent event) throws IOException {
         stickno = 0;
         pillarno = 0;
         sticks.clear();
@@ -121,23 +150,129 @@ public class SceneController{
         MainMenu.play(event);
     }
 
-    public void increaseCircle(MouseEvent event){
+    public void increaseCircle(MouseEvent event) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle1);
         scaleTransition.setToX(1.1);
         scaleTransition.setToY(1.1);
         // Play the scale animation
         scaleTransition.play();
-    };
+    }
 
-    public void increaseCircle1(MouseEvent event){
+    public void increaseCircle1(MouseEvent event) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle2);
         scaleTransition.setToX(1.1);
         scaleTransition.setToY(1.1);
         // Play the scale animation
         scaleTransition.play();
-    };
+    }
 
-    public void saveGame(MouseEvent event) throws IOException{
+    public void revive(MouseEvent event) throws IOException{
+        int total_cherries;
+        FileInputStream in1 = null;
+        try {
+            in1 = new FileInputStream("cherry.txt");
+            total_cherries = Math.max(in1.read(),0);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (total_cherries < 5){
+            noCherries1.toFront();
+            noCherries2.toFront();
+            noCherries3.toFront();
+            noCherries4.toFront();
+            noCherries5.toFront();
+            noCherries6.toFront();
+        }else{
+            yesCherry1.toFront();
+            yesCherry2.toFront();
+            yesCherry3.toFront();
+            yesCherry4.toFront();
+            yesCherry5.toFront();
+            yesCherry6.toFront();
+            yesCherry7.toFront();
+            yesCherry8.toFront();
+        }
+    }
+
+    public void notEnoughCherries(MouseEvent event) throws IOException{
+        noCherries1.toBack();
+        noCherries2.toBack();
+        noCherries3.toBack();
+        noCherries4.toBack();
+        noCherries5.toBack();
+        noCherries6.toBack();
+    }
+
+    public void rejectRevival(MouseEvent event) throws IOException{
+        yesCherry1.toBack();
+        yesCherry2.toBack();
+        yesCherry3.toBack();
+        yesCherry4.toBack();
+        yesCherry5.toBack();
+        yesCherry6.toBack();
+        yesCherry7.toBack();
+        yesCherry8.toBack();
+    }
+
+//    public void acceptRevival(MouseEvent event) throws IOException{
+//
+//    }
+
+    public void playAfterRevival(MouseEvent event) throws IOException {
+        int total_cherries;
+        FileInputStream in1 = null;
+        try {
+            in1 = new FileInputStream("cherry.txt");
+            total_cherries = Math.max(in1.read(),0);
+            FileOutputStream out1 = null;
+            out1 = new FileOutputStream("cherry.txt");
+            out1.write(total_cherries - 5);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stickno = 0;
+        pillarno = 0;
+        sticks.clear();
+        sticklines.clear();
+        rectangles.clear();
+        cherries.clear();
+        pillars.clear();
+        stickDown = 0;
+        gamePaused = 0;
+        gameResumed = 0;
+        int score;
+        FileInputStream restore = null;
+        try{
+            restore = new FileInputStream("score.txt");
+            score = restore.read();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }finally {
+            restore.close();
+        }
+        FileOutputStream saveScore = null;
+        try{
+            saveScore = new FileOutputStream("score.txt");
+            saveScore.write("".getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }finally {
+            saveScore.close();
+        }
+        Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("mainscreen.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        Button scoreButton = (Button) root.lookup("#scoreButton");
+        scoreButton.setText(String.valueOf(score));
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void saveGame(MouseEvent event) throws IOException {
         gameSaved = 1;
         Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
         savedAlert.setTitle("Game Saved");
@@ -151,6 +286,7 @@ public class SceneController{
 
         savedAlert.showAndWait();
     }
+
     public void decreaseCircle(MouseEvent event) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle1);
         scaleTransition.setToX(1.0);
@@ -167,21 +303,21 @@ public class SceneController{
         scaleTransition.play();
     }
 
-    public void loadSaved(MouseEvent event) throws IOException{
-        if (gameSaved == 1){
+    public void loadSaved(MouseEvent event) throws IOException {
+        if (gameSaved == 1) {
             Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("loaded.fxml")));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
             System.out.println("Game resumed");
-            Rectangle nextPillar = rectangles.get(rectangles.size()-2);
-            AnchorPane anchor = (AnchorPane)root;
+            Rectangle nextPillar = rectangles.get(rectangles.size() - 2);
+            AnchorPane anchor = (AnchorPane) root;
             anchor.getChildren().add(nextPillar);
-            Rectangle nextPillar1 = rectangles.get(rectangles.size()-1);
+            Rectangle nextPillar1 = rectangles.get(rectangles.size() - 1);
             anchor.getChildren().add(nextPillar1);
-            if (cherryGenerate == 1){
-                anchor.getChildren().add(cherries.get(cherries.size()-1));
+            if (cherryGenerate == 1) {
+                anchor.getChildren().add(cherries.get(cherries.size() - 1));
             }
             Stick stick = new Stick(0, 0);
             Line line = new Line(SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY(), SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY() - 15);
@@ -191,7 +327,7 @@ public class SceneController{
             SceneController.stickno++;
             SceneController.sticklines.add(SceneController.stickno, line);
             SceneController.sticks.add(stick);
-        }else{
+        } else {
             Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
             savedAlert.setTitle("No Loaded Games");
             savedAlert.setHeaderText(null);
@@ -206,7 +342,7 @@ public class SceneController{
         }
     }
 
-    public void resumeGame(MouseEvent event) throws IOException{
+    public void resumeGame(MouseEvent event) throws IOException {
         gameResumed = 1;
         gamePaused = 0;
         homeRectangle.setOpacity(0);
@@ -236,26 +372,27 @@ public class SceneController{
         scoreButton.setOpacity(1);
         pauseButton.toFront();
         pauseIcon.toFront();
-        if (rectangles.size() >= 2){
-            rectangles.get(rectangles.size()-2).toFront();
-            rectangles.get(rectangles.size()-1).toFront();
-        }else{
+        if (rectangles.size() >= 2) {
+            rectangles.get(rectangles.size() - 2).toFront();
+            rectangles.get(rectangles.size() - 1).toFront();
+        } else {
             prevPillar.toFront();
             nextPillar.toFront();
         }
         myHero.toFront();
         scoreButton.toFront();
-        for (Line s:sticklines) {
+        for (Line s : sticklines) {
             s.toFront();
         }
-        if (cherryGenerate == 1){
+        if (cherryGenerate == 1) {
             cherries.get(cherries.size() - 1).toFront();
         }
-        for (Rectangle r:rectangles) {
+        for (Rectangle r : rectangles) {
             r.toFront();
         }
     }
-    public void restartGame(MouseEvent event) throws IOException{
+
+    public void restartGame(MouseEvent event) throws IOException {
         gamePaused = 0;
         System.out.println("Restarting");
         stickno = 0;
@@ -267,18 +404,18 @@ public class SceneController{
         pillars.clear();
         stickDown = 0;
         Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("mainscreen.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void switchToHomeScreen(MouseEvent event) throws IOException{
+    public void switchToHomeScreen(MouseEvent event) throws IOException {
         PauseMenu pause = new PauseMenu();
         pause.returntohome(event);
     }
 
-    public void switchToPauseScreen(MouseEvent event) throws IOException{
+    public void switchToPauseScreen(MouseEvent event) throws IOException {
         gamePaused = 1;
         homeRectangle.setOpacity(1);
         resumeRectangle.setOpacity(1);
@@ -305,22 +442,22 @@ public class SceneController{
         myHero.setOpacity(0);
         scoreButton.setOpacity(0);
         pauseIcon.toBack();
-        if (rectangles.size() >= 2){
-            rectangles.get(rectangles.size()-2).toBack();
-            rectangles.get(rectangles.size()-1).toBack();
-        }else{
+        if (rectangles.size() >= 2) {
+            rectangles.get(rectangles.size() - 2).toBack();
+            rectangles.get(rectangles.size() - 1).toBack();
+        } else {
             prevPillar.toBack();
             nextPillar.toBack();
         }
         myHero.toBack();
         scoreButton.toBack();
-        for (Line s:sticklines) {
+        for (Line s : sticklines) {
             s.toBack();
         }
-        for (Rectangle r:rectangles) {
+        for (Rectangle r : rectangles) {
             r.toBack();
         }
-        if (cherryGenerate == 1){
+        if (cherryGenerate == 1) {
             cherries.get(cherries.size() - 1).toBack();
         }
     }
@@ -328,10 +465,10 @@ public class SceneController{
     @FXML
     public void initialize() {
         // Initialize the Timeline
-        hero = new Hero(1,1.0,0,0);
-        stick = new Stick(0,0);
+        hero = new Hero(1, 1.0, 0, 0);
+        stick = new Stick(0, 0);
         sticks.add(stick);
-        sticklines.add(0,stickLine);
+        sticklines.add(0, stickLine);
 
         floatHeroImage();
 //        double width = nextPillar.getWidth();
@@ -343,20 +480,20 @@ public class SceneController{
 
     @FXML
     public void handleMousePressed(MouseEvent event) {
-        if (gamePaused == 1){
+        if (gamePaused == 1) {
             return;
         }
-        if (gameResumed == 1){
+        if (gameResumed == 1) {
             gameResumed = 0;
             sticks.get(stickno).setRotation(0);
             stickDown = 0;
             return;
         }
-        if (sticks.get(stickno).getRotation() == 0){
+        if (sticks.get(stickno).getRotation() == 0) {
             sticklines.get(stickno).setOpacity(1);
             stickDown = 1;
             timeline.play();
-        }else if (sticks.get(stickno).getRotation() == -90){
+        } else if (sticks.get(stickno).getRotation() == -90) {
             stickDown = 0;
             hero.flipHero(myHero);
         }
@@ -375,26 +512,26 @@ public class SceneController{
     @FXML
     public void handleMouseReleased(MouseEvent event) throws InterruptedException {
         // Stop the Timeline when the mouse is released
-        if (stickDown == 0){
+        if (stickDown == 0) {
             return;
         }
         timeline.stop();
-        if (pillarno == 0){
+        if (pillarno == 0) {
             rectangles.add(prevPillar);
             rectangles.add(nextPillar);
             double width = nextPillar.getWidth();
             double prevDistance = nextPillar.getLayoutX() - (prevPillar.getLayoutX() + prevPillar.getWidth());
-            targetPillar = new Pillar(width, width/2, prevDistance);
+            targetPillar = new Pillar(width, width / 2, prevDistance);
             pillars.add(initialPillar);
             pillars.add(targetPillar);
         }
 
-        double stickLength = Math.sqrt(Math.pow(sticklines.get(stickno).getEndX()-sticklines.get(stickno).getStartX(),2) + Math.pow(sticklines.get(stickno).getEndY()-sticklines.get(stickno).getStartY(),2));
+        double stickLength = Math.sqrt(Math.pow(sticklines.get(stickno).getEndX() - sticklines.get(stickno).getStartX(), 2) + Math.pow(sticklines.get(stickno).getEndY() - sticklines.get(stickno).getStartY(), 2));
         sticks.get(stickno).setLength(stickLength);
-        sticks.get(stickno).rotateStick(sticklines.get(stickno),hero,myHero,pillars.get(pillarno+1),rectangles.get(pillarno+1),rectangles.get(pillarno),scoreButton,cherryCount);
+        sticks.get(stickno).rotateStick(sticklines.get(stickno), hero, myHero, pillars.get(pillarno + 1), rectangles.get(pillarno + 1), rectangles.get(pillarno), scoreButton, cherryCount);
     }
 
-    public void increaseStickLength(ActionEvent event){
+    public void increaseStickLength(ActionEvent event) {
         //System.out.println(stickno);
         sticks.get(stickno).increaseLength(sticklines.get(stickno));
     }
