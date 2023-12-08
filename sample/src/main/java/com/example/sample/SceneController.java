@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -21,15 +22,16 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class SceneController {
+public class SceneController{
     @FXML
     private Line stickLine;
     private Stick stick;
     private Hero hero;
+    private static int gameSaved = 0;
     private Timeline timeline;
 
     @FXML
@@ -61,6 +63,7 @@ public class SceneController {
 
     @FXML
     private Rectangle prevPillar;
+    public static int cherryGenerate = 0;
 
     private Pillar initialPillar;
 
@@ -99,6 +102,20 @@ public class SceneController {
         scaleTransition.play();
     };
 
+    public void saveGame(MouseEvent event) throws IOException{
+        gameSaved = 1;
+        Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
+        savedAlert.setTitle("Game Saved");
+        savedAlert.setHeaderText(null);
+        savedAlert.setContentText("Your game has been saved.");
+
+        // Show alert for 5 seconds
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ae -> savedAlert.hide()));
+        timeline.setCycleCount(1);
+        timeline.play();
+
+        savedAlert.showAndWait();
+    }
     public void decreaseCircle(MouseEvent event) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle1);
         scaleTransition.setToX(1.0);
@@ -115,6 +132,71 @@ public class SceneController {
         scaleTransition.play();
     }
 
+    public void loadSaved(MouseEvent event) throws IOException{
+        if (gameSaved == 1){
+            Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("loaded.fxml")));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+            System.out.println("Game resumed");
+            Rectangle nextPillar = rectangles.get(rectangles.size()-2);
+            AnchorPane anchor = (AnchorPane)root;
+            anchor.getChildren().add(nextPillar);
+            Rectangle nextPillar1 = rectangles.get(rectangles.size()-1);
+            anchor.getChildren().add(nextPillar1);
+            if (cherryGenerate == 1){
+                anchor.getChildren().add(cherries.get(cherries.size()-1));
+            }
+            Stick stick = new Stick(0, 0);
+            Line line = new Line(SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY(), SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY() - 15);
+            line.setOpacity(0);
+            line.setStrokeWidth(4.0);
+            anchor.getChildren().add(line);
+            SceneController.stickno++;
+            SceneController.sticklines.add(SceneController.stickno, line);
+            SceneController.sticks.add(stick);
+        }else{
+            Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
+            savedAlert.setTitle("No Loaded Games");
+            savedAlert.setHeaderText(null);
+            savedAlert.setContentText("No games have been saved yet");
+
+            // Show alert for 5 seconds
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ae -> savedAlert.hide()));
+            timeline.setCycleCount(1);
+            timeline.play();
+
+            savedAlert.showAndWait();
+        }
+    }
+
+    public void resumeGame(MouseEvent event) throws IOException{
+        Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("loaded.fxml")));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+        System.out.println("Game resumed");
+        Rectangle nextPillar = rectangles.get(rectangles.size()-2);
+        AnchorPane anchor = (AnchorPane)root;
+        anchor.getChildren().add(nextPillar);
+        Rectangle nextPillar1 = rectangles.get(rectangles.size()-1);
+        anchor.getChildren().add(nextPillar1);
+        if (cherryGenerate == 1){
+            anchor.getChildren().add(cherries.get(cherries.size()-1));
+        }
+        Stick stick = new Stick(0, 0);
+        Line line = new Line(SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY(), SceneController.rectangles.get(0).getWidth() - 5, nextPillar1.getLayoutY() - 15);
+        line.setOpacity(0);
+        line.setStrokeWidth(4.0);
+        anchor.getChildren().add(line);
+        SceneController.stickno++;
+        SceneController.sticklines.add(SceneController.stickno, line);
+        SceneController.sticks.add(stick);
+        System.out.println(hero.getCherries());
+        System.out.println(hero.getScore());
+    }
     public void restartGame(MouseEvent event) throws IOException{
         stickno = 0;
         pillarno = 0;
@@ -136,6 +218,7 @@ public class SceneController {
     }
 
     public void switchToPauseScreen(MouseEvent event) throws IOException{
+        System.out.println("game saved");
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("pause.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

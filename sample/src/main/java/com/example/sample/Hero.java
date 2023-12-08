@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Random;
 
 public class Hero {
@@ -237,6 +238,7 @@ public class Hero {
                     SceneController.pillarno++;
                     TranslateTransition transition = new TranslateTransition(Duration.millis(500), nextPillar);
                     double extra = 9 + Math.random() * 180;
+                    SceneController.cherryGenerate = 0;
                     Random random = new Random();
                     // Generate a random number, either 0 or 1
                     int generateCherry = random.nextInt(2);
@@ -255,6 +257,7 @@ public class Hero {
                         cherryTransition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + cherryExtra) + 25));
                         cherryTransition.play();
                         SceneController.cherries.add(cherry);
+                        SceneController.cherryGenerate = 1;
                     }
                     transition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + extra)));
 //                    System.out.println("Old" + extra);

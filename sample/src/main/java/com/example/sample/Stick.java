@@ -9,6 +9,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import java.io.Serializable;
+
 public class Stick {
     private double length;
     private float rotation;

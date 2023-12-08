@@ -27,7 +27,7 @@
          </image>
       </ImageView>
       <Circle fx:id="circle2" fill="#ff1f1f" layoutX="409.0" layoutY="164.0" onMouseEntered="#increaseCircle1" onMouseExited="#decreaseCircle1" radius="40.0" stroke="TRANSPARENT" strokeType="INSIDE" />
-      <Button layoutX="376.0" layoutY="140.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="66.0" style="-fx-background-color: null;" text="LOAD" textAlignment="CENTER" textFill="WHITE">
+      <Button layoutX="376.0" layoutY="140.0" mnemonicParsing="false" onMousePressed="#loadSaved" prefHeight="48.0" prefWidth="66.0" style="-fx-background-color: null;" text="LOAD" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="System Bold" size="16.0" />
          </font></Button>
