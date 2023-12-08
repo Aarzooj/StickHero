@@ -20,6 +20,7 @@ import java.io.*;
 import java.util.Random;
 
 public class Hero implements Serializable {
+    static final long serialVersionUID = 42L;
     private int state;
     private double speed;
     private int cherries;

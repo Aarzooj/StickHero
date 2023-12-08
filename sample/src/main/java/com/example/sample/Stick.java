@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import java.io.Serializable;
 
 public class Stick implements Serializable {
+    static final long serialVersionUID = 20L;
     private double length;
     private float rotation;
     public Timeline rotationTimeline;
