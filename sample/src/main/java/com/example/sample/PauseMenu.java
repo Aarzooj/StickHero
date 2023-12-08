@@ -15,6 +15,17 @@ public class PauseMenu extends SideMenu{
 
     private static Stage stage;
     private static Scene scene;
+    private static PauseMenu gen = null;
+
+    private PauseMenu(){}
+
+    // Singleton Design Pattern
+    public static PauseMenu getInstance(){
+        if (gen == null){
+            gen = new PauseMenu();
+        }
+        return gen;
+    }
     @Override
     public void returntohome(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main.fxml")));

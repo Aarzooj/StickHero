@@ -38,7 +38,10 @@ public class Stick implements Serializable {
         return rotation;
     }
 
-    public void setRotation(float rotation) {
+    public void setRotation(float rotation) throws NegativeRotationException {
+        if (rotation > 0){
+            throw new NegativeRotationException("Stick can't be rotated anti clockwise");
+        }
         this.rotation = rotation;
     }
 
@@ -52,13 +55,19 @@ public class Stick implements Serializable {
 
         // Apply rotation transformation gradually
         rotationTimeline = new Timeline(
-                new KeyFrame(Duration.millis(5), e -> rotateStick(degrees / 100,stickLine))
+                new KeyFrame(Duration.millis(5), e -> {
+                    try {
+                        rotateStick(degrees / 100,stickLine);
+                    } catch (NegativeRotationException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                })
         );
         rotationTimeline.setCycleCount(100);
         rotationTimeline.setOnFinished(e -> hero.move(myHero,stickLine,targetPillar,target,prevPillar,scoreButton,cherryCount));
         rotationTimeline.play();
     }
-    private void rotateStick(double angle, Line stickLine) {
+    private void rotateStick(double angle, Line stickLine) throws NegativeRotationException {
         Rotate rotate = new Rotate(angle, stickLine.getStartX(), stickLine.getStartY());
         stickLine.getTransforms().add(rotate);
         this.setRotation(-90);

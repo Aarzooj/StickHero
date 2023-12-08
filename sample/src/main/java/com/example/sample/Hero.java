@@ -30,7 +30,10 @@ public class Hero implements Serializable {
     public transient TranslateTransition cherryExit,shiftTransition,heroTransition,stickTransition,prevTransition,transition,cherryTransition;
     public transient Timeline fallTimeline;
 
-    public void collectCherries(int cherries) {
+    public void collectCherries(int cherries) throws NegativeCherryException {
+        if (cherries < 0){
+            throw new NegativeCherryException("Cherries can't be negative");
+        }
         this.cherries = cherries;
     }
 
@@ -46,7 +49,10 @@ public class Hero implements Serializable {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(int score) throws NegativeScoreException {
+        if (score < 0){
+            throw new NegativeScoreException("Score can't be negative");
+        }
         this.score = score;
     }
 
@@ -62,15 +68,15 @@ public class Hero implements Serializable {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(double speed) throws NegativeSpeedException {
+        if (speed < 0){
+            throw new NegativeSpeedException("Speed can't be negative");
+        }
         this.speed = speed;
     }
 
     public int getCherries() {
         return cherries;
-    }
-
-    public void dropStick() {
     }
 
     public void flipHero(ImageView myHero) {

@@ -26,15 +26,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class App<MainController> extends Application {
+public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main.fxml")));
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("main.fxml"));
-//        Parent root = loader.load();
-
-        // Get the controller instance from the FXMLLoader
-//        SceneController mainController = loader.getController();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);

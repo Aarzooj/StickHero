@@ -433,7 +433,7 @@ public class SceneController {
     }
 
     public void switchToHomeScreen(MouseEvent event) throws IOException {
-        PauseMenu pause = new PauseMenu();
+        PauseMenu pause = PauseMenu.getInstance();
         pause.returntohome(event);
     }
 
@@ -501,7 +501,7 @@ public class SceneController {
     }
 
     @FXML
-    public void handleMousePressed(MouseEvent event) {
+    public void handleMousePressed(MouseEvent event) throws NegativeRotationException {
         if (gamePaused == 1) {
             return;
         }
