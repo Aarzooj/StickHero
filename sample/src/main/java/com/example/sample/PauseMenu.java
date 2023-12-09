@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -34,12 +35,18 @@ public class PauseMenu extends SideMenu {
     }
 
     @Override
-    public void returntohome(MouseEvent event) throws IOException {
+    public void returntohome(MouseEvent event, Line cancel) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main.fxml")));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        Line cancel1 = (Line) root.lookup("#cancel");
+        if (SceneController.soundPlay){
+            cancel1.setOpacity(0);
+        }else{
+            cancel1.setOpacity(1);
+        }
     }
 
     public void savegame(Hero hero) throws IOException {

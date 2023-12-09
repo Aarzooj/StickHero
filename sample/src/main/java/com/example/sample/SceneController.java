@@ -21,6 +21,8 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -34,12 +36,15 @@ public class SceneController {
     @FXML
     private Line stickLine;
     private Stick stick;
+    public static boolean soundPlay = false;
     private Hero hero;
     private static int gamePaused = 0;
     private Timeline timeline;
 
     @FXML
     private Button scoreButton;
+    @FXML
+    public Line cancel;
 
     @FXML
     private Circle circle1;
@@ -116,6 +121,7 @@ public class SceneController {
     private Label noCherries6;
     public static int gameLoaded = 0;
     public static int gameResumed = 0;
+    private static MediaPlayer mediaPlayer = null;
 
     public static int stickno = 0;
     public static int pillarno = 0;
@@ -123,6 +129,7 @@ public class SceneController {
     @FXML
     private Rectangle prevPillar;
     public static int cherryGenerate = 0;
+    private static int count = 0;
 
     private Pillar initialPillar;
     public static ArrayList<Pillar> pillars = new ArrayList<>();
@@ -414,7 +421,26 @@ public class SceneController {
 
     public void switchToHomeScreen(MouseEvent event) throws IOException {
         PauseMenu pause = PauseMenu.getInstance();
-        pause.returntohome(event);
+        pause.returntohome(event,cancel);
+    }
+
+    public void playsound(MouseEvent event){
+        soundPlay = !soundPlay;
+        if (count < 1){
+            String soundFile = "gameSound.mp3" ;
+            Media media = new Media(new File(soundFile).toURI().toString());
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+            count++;
+        }
+        if (soundPlay){
+            mediaPlayer.setVolume(1);
+            cancel.setOpacity(0);
+        }else{
+            mediaPlayer.setVolume(0);
+            cancel.setOpacity(1);
+        }
     }
 
     public void switchToPauseScreen(MouseEvent event) throws IOException {

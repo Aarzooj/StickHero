@@ -69,6 +69,8 @@ Run the main class from `App.java`.
    - score.txt
    - high_score.txt
 
-### Animations used
+### Animations, Graphics and Sound used
 - The movement of hero while playing the game
 - The **Play** and **Load Saved Games** button change size when the mouse hovers over it.
+- A Sound play button has been added to the home screen which plays the sound throughout the game. When it is again pressed, the sound icon changes to cancel sound icon. 
+- The sound playing is not continuous so some gaps between the sound are expected.
