@@ -111,8 +111,31 @@ public class Hero implements Serializable {
                     myHero.setY(newY);
                 })
         );
+        FileInputStream s = null;
+        int state = 0;
+        try{
+            s = new FileInputStream("gamestate.txt");
+            state = s.read();
+        }catch (FileNotFoundException e){
+            throw new RuntimeException(e);
+        }finally {
+            s.close();
+        }
+        if (state != -1 && SceneController.gameLoaded == 1){
+            SceneController.gameLoaded = 0;
+            ObjectInputStream in3 = null;
+            Hero hero = null;
+            try{
+                in3 = new ObjectInputStream(new FileInputStream("gamestate.txt"));
+                hero = (Hero) in3.readObject();
+
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            this.cherries += hero.getCherries();
+            this.score += hero.getScore();
+        }
         int c;
-//        int finalC = this.score;
         FileInputStream in = null;
         try{
             in = new FileInputStream("high_score.txt");
@@ -120,12 +143,8 @@ public class Hero implements Serializable {
             if (this.score > c){
                 FileOutputStream out = null;
                 try {
-                    System.out.println(c);
-                    System.out.println(this.score);
                     out = new FileOutputStream("high_score.txt");
-//                    out.write("".getBytes());
                     out.write(this.score);
-//                    finalC = c;
                     c = this.score;
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
@@ -144,7 +163,6 @@ public class Hero implements Serializable {
             in.close();
         }
         int finalC1 = c;
-        //System.out.println(finalC1);
         fallTimeline.setOnFinished(event -> {
             FileOutputStream saveScore = null;
             try{
@@ -158,8 +176,6 @@ public class Hero implements Serializable {
             try {
                 in1 = new FileInputStream("cherry.txt");
                 int a = Math.max(in1.read(),0);
-
-                System.out.println("a"+a);
                 total_cherries = a + this.cherries;
                 FileOutputStream out1 = null;
                 out1 = new FileOutputStream("cherry.txt");
@@ -199,9 +215,6 @@ public class Hero implements Serializable {
         fallTimeline.play();
     }
 
-    public void revive() {
-    }
-
     public void move(ImageView myHero, Line stickLine, Pillar targetPillar, Rectangle target, Rectangle prevPillar, Button scoreButton, Button cherryCount) {
         double stickLength = Math.sqrt(Math.pow(stickLine.getEndX() - stickLine.getStartX(), 2) + Math.pow(stickLine.getEndY() - stickLine.getStartY(), 2));
         double targetX = myHero.getX() + stickLength + 15;
@@ -233,9 +246,6 @@ public class Hero implements Serializable {
                     }
                 })
         );
-
-//        System.out.println(stickLength);
-//        System.out.println("New" + targetPillar.getDistanceFromPrev());
 
         if (stickLength < targetPillar.getDistanceFromPrev() || stickLength > (targetPillar.getDistanceFromPrev() + targetPillar.getWidth())) {
             moveTimeline[0].setOnFinished(event -> {
@@ -312,8 +322,9 @@ public class Hero implements Serializable {
                 // Check if anchor is not null before proceeding
                 if (anchor != null) {
                     double width = 30 + Math.random() * 120;
-                    Rectangle nextPillar = new Rectangle(width, 200);
-//                    System.out.println(nextPillar.getWidth());
+                    Rectangle nextPillar = (Rectangle) Factory.getShape("Rectangle");
+                    nextPillar.setWidth(width);
+                    nextPillar.setHeight(200);
                     nextPillar.setLayoutX(anchor.getWidth());
                     nextPillar.setLayoutY(target.getLayoutY());
                     anchor.getChildren().add(nextPillar);
@@ -325,7 +336,6 @@ public class Hero implements Serializable {
                     Random random = new Random();
                     // Generate a random number, either 0 or 1
                     int generateCherry = random.nextInt(2);
-//                    System.out.printf("Extra: %f Flag: %d\n",extra,generateCherry);
                     if (extra > 50 && generateCherry == 1){
                         Image cherryImage = new Image("cherry.png");
                         ImageView cherry = new ImageView(cherryImage);
@@ -348,13 +358,15 @@ public class Hero implements Serializable {
                     SceneController.pillars.add(newPillar);
                     transition.play();
                     Stick stick = new Stick(0, 0);
-                    Line line = new Line(SceneController.rectangles.get(0).getWidth() - 5, target.getLayoutY(), SceneController.rectangles.get(0).getWidth() - 5, target.getLayoutY() - 15);
+                    Line line = (Line)Factory.getShape("Line");
+                    line.setStartX(SceneController.rectangles.get(0).getWidth() - 5);
+                    line.setStartY(target.getLayoutY());
+                    line.setEndX(SceneController.rectangles.get(0).getWidth() - 5);
+                    line.setEndY(target.getLayoutY() - 15);
                     line.setOpacity(0);
                     line.setStrokeWidth(4.0);
-                    // anchor.getChildren().remove(stickLine);
                     anchor.getChildren().add(line);
                     SceneController.stickno++;
-//                    System.out.println(SceneController.stickno);
                     SceneController.sticklines.add(SceneController.stickno, line);
                     SceneController.sticks.add(stick);
 
@@ -365,10 +377,5 @@ public class Hero implements Serializable {
             });
             moveTimeline[0].play();
         }
-    }
-
-    public boolean hitRedCentre(Pillar p) {
-
-        return false;
     }
 }

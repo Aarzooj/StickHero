@@ -73,8 +73,4 @@ public class Stick implements Serializable {
         stickLine.getTransforms().add(rotate);
         this.setRotation(-90);
     }
-    public boolean hitRedCentre(Pillar p){
-
-        return false;
-    }
 }

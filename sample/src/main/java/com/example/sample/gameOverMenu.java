@@ -1,13 +1,20 @@
 package com.example.sample;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Objects;
 
 public class gameOverMenu extends SideMenu{
@@ -29,19 +36,6 @@ public class gameOverMenu extends SideMenu{
         stage.show();
     }
 
-    @Override
-    public void savegame() {
-
-    }
-
-    @Override
-    public void restart() {
-
-    }
-
-    public void usecherriestorevive(){
-
-    }
 
     public gameOverScore getscoreboard(){
         return this.scoreBoard;

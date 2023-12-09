@@ -117,6 +117,8 @@ public class SceneController {
     private Button noCherries5;
     @FXML
     private Label noCherries6;
+    public static int gameLoaded = 0;
+    public static int gameResumed = 0;
 
     public static int stickno = 0;
     public static int pillarno = 0;
@@ -126,14 +128,24 @@ public class SceneController {
     public static int cherryGenerate = 0;
 
     private Pillar initialPillar;
-    private int gameResumed = 0;
-
     public static ArrayList<Pillar> pillars = new ArrayList<>();
     public static ArrayList<Rectangle> rectangles = new ArrayList<>();
     public static ArrayList<Stick> sticks = new ArrayList<>();
     public static ArrayList<Line> sticklines = new ArrayList<>();
     public static ArrayList<ImageView> cherries = new ArrayList<>();
 
+    @FXML
+    public void initialize() {
+        // Initialize the Timeline
+        hero = new Hero(1, 1.0, 0, 0);
+        stick = new Stick(0, 0);
+        sticks.add(stick);
+        sticklines.add(0, stickLine);
+
+        floatHeroImage();
+        timeline = new Timeline(new KeyFrame(javafx.util.Duration.millis(10), this::increaseStickLength));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+    }
 
     public void switchToPlayScreen(ActionEvent event) throws IOException {
         stickno = 0;
@@ -215,10 +227,6 @@ public class SceneController {
         yesCherry8.toBack();
     }
 
-//    public void acceptRevival(MouseEvent event) throws IOException{
-//
-//    }
-
     public void playAfterRevival(MouseEvent event) throws IOException {
         int total_cherries;
         FileInputStream in1 = null;
@@ -272,24 +280,8 @@ public class SceneController {
     }
 
     public void saveGame(MouseEvent event) throws IOException {
-        Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
-        savedAlert.setTitle("Game Saved");
-        savedAlert.setHeaderText(null);
-        savedAlert.setContentText("Your game has been saved.");
-        ObjectOutputStream out3 = null;
-        try {
-            out3 = new ObjectOutputStream(new FileOutputStream("gamestate.txt"));
-            out3.writeObject(hero);
-        }finally {
-            out3.close();
-        }
-
-        // Show alert for 5 seconds
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ae -> savedAlert.hide()));
-        timeline.setCycleCount(1);
-        timeline.play();
-
-        savedAlert.showAndWait();
+        PauseMenu pause = PauseMenu.getInstance();
+        pause.savegame(hero);
     }
 
     public void decreaseCircle(MouseEvent event) {
@@ -320,6 +312,7 @@ public class SceneController {
             in.close();
         }
         if (state != -1) {
+            gameLoaded = 1;
             stickno = 0;
             pillarno = 0;
             sticks.clear();
@@ -388,8 +381,6 @@ public class SceneController {
         resumeIcon.toBack();
         restartButton.toBack();
         pauseIcon.setOpacity(1);
-//        rectangles.get(rectangles.size()-2).setOpacity(1);
-//        rectangles.get(rectangles.size()-1).setOpacity(1);
         myHero.setOpacity(1);
         scoreButton.setOpacity(1);
         pauseButton.toFront();
@@ -416,7 +407,6 @@ public class SceneController {
 
     public void restartGame(MouseEvent event) throws IOException {
         gamePaused = 0;
-        System.out.println("Restarting");
         stickno = 0;
         pillarno = 0;
         sticks.clear();
@@ -459,8 +449,6 @@ public class SceneController {
         resumeIcon.toFront();
         restartButton.toFront();
         pauseIcon.setOpacity(0);
-//        rectangles.get(rectangles.size()-2).setOpacity(0);
-//        rectangles.get(rectangles.size()-1).setOpacity(0);
         myHero.setOpacity(0);
         scoreButton.setOpacity(0);
         pauseIcon.toBack();
@@ -482,22 +470,6 @@ public class SceneController {
         if (cherryGenerate == 1) {
             cherries.get(cherries.size() - 1).toBack();
         }
-    }
-
-    @FXML
-    public void initialize() {
-        // Initialize the Timeline
-        hero = new Hero(1, 1.0, 0, 0);
-        stick = new Stick(0, 0);
-        sticks.add(stick);
-        sticklines.add(0, stickLine);
-
-        floatHeroImage();
-//        double width = nextPillar.getWidth();
-//        double prevDistance = nextPillar.getX() - (prevPillar.getX() + prevPillar.getWidth());
-//        targetPillar = new Pillar(width, width/2, prevDistance);
-        timeline = new Timeline(new KeyFrame(javafx.util.Duration.millis(10), this::increaseStickLength));
-        timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
     @FXML
@@ -554,7 +526,6 @@ public class SceneController {
     }
 
     public void increaseStickLength(ActionEvent event) {
-        //System.out.println(stickno);
         sticks.get(stickno).increaseLength(sticklines.get(stickno));
     }
 }

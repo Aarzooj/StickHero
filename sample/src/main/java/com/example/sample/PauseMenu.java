@@ -1,14 +1,21 @@
 package com.example.sample;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Objects;
 
 public class PauseMenu extends SideMenu{
@@ -34,14 +41,26 @@ public class PauseMenu extends SideMenu{
         stage.setScene(scene);
         stage.show();
     }
+    public void savegame(Hero hero) throws IOException {
+        Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
+        savedAlert.setTitle("Game Saved");
+        savedAlert.setHeaderText(null);
+        savedAlert.setContentText("Your game has been saved.");
+        ObjectOutputStream out3 = null;
+        try {
+            out3 = new ObjectOutputStream(new FileOutputStream("gamestate.txt"));
+            out3.writeObject(hero);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            out3.close();
+        }
 
-    @Override
-    public void savegame() {
+        // Show alert for 5 seconds
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ae -> savedAlert.hide()));
+        timeline.setCycleCount(1);
+        timeline.play();
 
-    }
-
-    @Override
-    public void restart() {
-
+        savedAlert.showAndWait();
     }
 }
