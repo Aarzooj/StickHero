@@ -6,12 +6,12 @@ import javafx.scene.shape.Shape;
 
 // Factory Design Method
 public class Factory {
-    public static Shape getShape(String type){
-        if (type.equals("Rectangle")){
+    public static Shape getShape(String type) {
+        if (type.equals("Rectangle")) {
             return new Rectangle();
-        }else if (type.equals("Line")){
+        } else if (type.equals("Line")) {
             return new Line();
-        }else {
+        } else {
             return null;
         }
     }

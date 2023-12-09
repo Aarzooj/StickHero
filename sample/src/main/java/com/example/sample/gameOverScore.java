@@ -1,6 +1,6 @@
 package com.example.sample;
 
-public class gameOverScore implements ScoreBoard{
+public class gameOverScore implements ScoreBoard {
 
     private int bestScore;
 

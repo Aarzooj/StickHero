@@ -7,40 +7,41 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Objects;
 
-public class PauseMenu extends SideMenu{
+public class PauseMenu extends SideMenu {
 
     private static Stage stage;
     private static Scene scene;
     private static PauseMenu gen = null;
 
-    private PauseMenu(){}
+    private PauseMenu() {
+    }
 
     // Singleton Design Pattern
-    public static PauseMenu getInstance(){
-        if (gen == null){
+    public static PauseMenu getInstance() {
+        if (gen == null) {
             gen = new PauseMenu();
         }
         return gen;
     }
+
     @Override
     public void returntohome(MouseEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+
     public void savegame(Hero hero) throws IOException {
         Alert savedAlert = new Alert(Alert.AlertType.INFORMATION);
         savedAlert.setTitle("Game Saved");

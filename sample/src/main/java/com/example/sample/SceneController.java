@@ -15,17 +15,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -141,7 +138,6 @@ public class SceneController {
         stick = new Stick(0, 0);
         sticks.add(stick);
         sticklines.add(0, stickLine);
-
         floatHeroImage();
         timeline = new Timeline(new KeyFrame(javafx.util.Duration.millis(10), this::increaseStickLength));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -165,7 +161,6 @@ public class SceneController {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle1);
         scaleTransition.setToX(1.1);
         scaleTransition.setToY(1.1);
-        // Play the scale animation
         scaleTransition.play();
     }
 
@@ -173,29 +168,28 @@ public class SceneController {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle2);
         scaleTransition.setToX(1.1);
         scaleTransition.setToY(1.1);
-        // Play the scale animation
         scaleTransition.play();
     }
 
-    public void revive(MouseEvent event) throws IOException{
+    public void revive(MouseEvent event) throws IOException {
         int total_cherries;
         FileInputStream in1 = null;
         try {
             in1 = new FileInputStream("cherry.txt");
-            total_cherries = Math.max(in1.read(),0);
+            total_cherries = Math.max(in1.read(), 0);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if (total_cherries < 5){
+        if (total_cherries < 5) {
             noCherries1.toFront();
             noCherries2.toFront();
             noCherries3.toFront();
             noCherries4.toFront();
             noCherries5.toFront();
             noCherries6.toFront();
-        }else{
+        } else {
             yesCherry1.toFront();
             yesCherry2.toFront();
             yesCherry3.toFront();
@@ -207,7 +201,7 @@ public class SceneController {
         }
     }
 
-    public void notEnoughCherries(MouseEvent event) throws IOException{
+    public void notEnoughCherries(MouseEvent event) throws IOException {
         noCherries1.toBack();
         noCherries2.toBack();
         noCherries3.toBack();
@@ -216,7 +210,7 @@ public class SceneController {
         noCherries6.toBack();
     }
 
-    public void rejectRevival(MouseEvent event) throws IOException{
+    public void rejectRevival(MouseEvent event) throws IOException {
         yesCherry1.toBack();
         yesCherry2.toBack();
         yesCherry3.toBack();
@@ -232,7 +226,7 @@ public class SceneController {
         FileInputStream in1 = null;
         try {
             in1 = new FileInputStream("cherry.txt");
-            total_cherries = Math.max(in1.read(),0);
+            total_cherries = Math.max(in1.read(), 0);
             FileOutputStream out1 = null;
             out1 = new FileOutputStream("cherry.txt");
             out1.write(total_cherries - 5);
@@ -253,25 +247,25 @@ public class SceneController {
         gameResumed = 0;
         int score;
         FileInputStream restore = null;
-        try{
+        try {
             restore = new FileInputStream("score.txt");
             score = restore.read();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             restore.close();
         }
         FileOutputStream saveScore = null;
-        try{
+        try {
             saveScore = new FileOutputStream("score.txt");
             saveScore.write("".getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             saveScore.close();
         }
         Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("mainscreen.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         Button scoreButton = (Button) root.lookup("#scoreButton");
         scoreButton.setText(String.valueOf(score));
@@ -288,7 +282,6 @@ public class SceneController {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle1);
         scaleTransition.setToX(1.0);
         scaleTransition.setToY(1.0);
-        // Play the reverse scale animation
         scaleTransition.play();
     }
 
@@ -296,19 +289,18 @@ public class SceneController {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(100), circle2);
         scaleTransition.setToX(1.0);
         scaleTransition.setToY(1.0);
-        // Play the reverse scale animation
         scaleTransition.play();
     }
 
     public void loadSaved(MouseEvent event) throws IOException {
         FileInputStream in = null;
         int state = 0;
-        try{
+        try {
             in = new FileInputStream("gamestate.txt");
             state = in.read();
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             in.close();
         }
         if (state != -1) {
@@ -324,14 +316,13 @@ public class SceneController {
             gamePaused = 0;
             gameResumed = 0;
             Parent root = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("mainscreen.fxml")));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-            System.out.println("Game Loaded");
             ObjectInputStream in3 = null;
             Hero hero = null;
-            try{
+            try {
                 in3 = new ObjectInputStream(new FileInputStream("gamestate.txt"));
                 hero = (Hero) in3.readObject();
 
@@ -352,7 +343,6 @@ public class SceneController {
             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), ae -> savedAlert.hide()));
             timeline.setCycleCount(1);
             timeline.play();
-
             savedAlert.showAndWait();
         }
     }
@@ -494,18 +484,15 @@ public class SceneController {
     }
 
     public void floatHeroImage() {
-        // Create a TranslateTransition for the hero image
         TranslateTransition translateTransition = new TranslateTransition(Duration.millis(100), myHero);
-        translateTransition.setByY(2); // Adjust the value based on your preference
+        translateTransition.setByY(2);
         translateTransition.setCycleCount(TranslateTransition.INDEFINITE);
         translateTransition.setAutoReverse(true);
-        // Start the floating animation
         translateTransition.play();
     }
 
     @FXML
     public void handleMouseReleased(MouseEvent event) throws InterruptedException {
-        // Stop the Timeline when the mouse is released
         if (stickDown == 0) {
             return;
         }
@@ -519,7 +506,6 @@ public class SceneController {
             pillars.add(initialPillar);
             pillars.add(targetPillar);
         }
-
         double stickLength = Math.sqrt(Math.pow(sticklines.get(stickno).getEndX() - sticklines.get(stickno).getStartX(), 2) + Math.pow(sticklines.get(stickno).getEndY() - sticklines.get(stickno).getStartY(), 2));
         sticks.get(stickno).setLength(stickLength);
         sticks.get(stickno).rotateStick(sticklines.get(stickno), hero, myHero, pillars.get(pillarno + 1), rectangles.get(pillarno + 1), rectangles.get(pillarno), scoreButton, cherryCount);

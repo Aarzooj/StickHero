@@ -28,11 +28,11 @@ public class Hero implements Serializable {
     private Stick stick;
     private int cherriesCollected = 0;
     private final transient Timeline[] moveTimeline = new Timeline[1];
-    public transient TranslateTransition cherryExit,shiftTransition,heroTransition,stickTransition,prevTransition,transition,cherryTransition;
+    public transient TranslateTransition cherryExit, shiftTransition, heroTransition, stickTransition, prevTransition, transition, cherryTransition;
     public transient Timeline fallTimeline;
 
     public void collectCherries(int cherries) throws NegativeCherryException {
-        if (cherries < 0){
+        if (cherries < 0) {
             throw new NegativeCherryException("Cherries can't be negative");
         }
         this.cherries = cherries;
@@ -51,7 +51,7 @@ public class Hero implements Serializable {
     }
 
     public void setScore(int score) throws NegativeScoreException {
-        if (score < 0){
+        if (score < 0) {
             throw new NegativeScoreException("Score can't be negative");
         }
         this.score = score;
@@ -70,7 +70,7 @@ public class Hero implements Serializable {
     }
 
     public void setSpeed(double speed) throws NegativeSpeedException {
-        if (speed < 0){
+        if (speed < 0) {
             throw new NegativeSpeedException("Speed can't be negative");
         }
         this.speed = speed;
@@ -95,16 +95,10 @@ public class Hero implements Serializable {
     }
 
     public void fall(ImageView myHero) throws IOException {
-        double fallDistance = 300.0; // You can adjust this value based on how far you want the hero to fall
+        double fallDistance = 300.0;
         double speed = 2.0;
-
-        // Calculate the target Y position for falling
         double targetY = myHero.getY() + fallDistance;
-
-        // Calculate the duration based on the distance to fall and the speed
         double distanceToFall = Math.abs(targetY - myHero.getY());
-
-        // Use a Timeline to gradually change the hero's Y position
         fallTimeline = new Timeline(
                 new KeyFrame(Duration.millis(5), e -> {
                     double newY = myHero.getY() + speed;
@@ -113,19 +107,19 @@ public class Hero implements Serializable {
         );
         FileInputStream s = null;
         int state = 0;
-        try{
+        try {
             s = new FileInputStream("gamestate.txt");
             state = s.read();
-        }catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             s.close();
         }
-        if (state != -1 && SceneController.gameLoaded == 1){
+        if (state != -1 && SceneController.gameLoaded == 1) {
             SceneController.gameLoaded = 0;
             ObjectInputStream in3 = null;
             Hero hero = null;
-            try{
+            try {
                 in3 = new ObjectInputStream(new FileInputStream("gamestate.txt"));
                 hero = (Hero) in3.readObject();
 
@@ -137,10 +131,10 @@ public class Hero implements Serializable {
         }
         int c;
         FileInputStream in = null;
-        try{
+        try {
             in = new FileInputStream("high_score.txt");
-            c = Math.max(in.read(),0);
-            if (this.score > c){
+            c = Math.max(in.read(), 0);
+            if (this.score > c) {
                 FileOutputStream out = null;
                 try {
                     out = new FileOutputStream("high_score.txt");
@@ -150,22 +144,19 @@ public class Hero implements Serializable {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
-                }
-                finally {
+                } finally {
                     out.close();
                 }
             }
-
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        finally {
+        } finally {
             in.close();
         }
         int finalC1 = c;
         fallTimeline.setOnFinished(event -> {
             FileOutputStream saveScore = null;
-            try{
+            try {
                 saveScore = new FileOutputStream("score.txt");
                 saveScore.write(this.score);
             } catch (IOException e) {
@@ -175,7 +166,7 @@ public class Hero implements Serializable {
             FileInputStream in1 = null;
             try {
                 in1 = new FileInputStream("cherry.txt");
-                int a = Math.max(in1.read(),0);
+                int a = Math.max(in1.read(), 0);
                 total_cherries = a + this.cherries;
                 FileOutputStream out1 = null;
                 out1 = new FileOutputStream("cherry.txt");
@@ -193,23 +184,16 @@ public class Hero implements Serializable {
                 Label scoreLabel = (Label) gameoverRoot.lookup("#scoreLabel");
                 Label highLabel = (Label) gameoverRoot.lookup("#highLabel");
                 Button cherryCount = (Button) gameoverRoot.lookup("#cherryCount");
-
-                // Set the values
                 scoreLabel.setText(String.valueOf(score));
                 highLabel.setText(String.valueOf(finalC1));
                 cherryCount.setText(String.valueOf(total_cherries));
-                // Get the current stage
                 Stage currentStage = (Stage) myHero.getScene().getWindow();
-
-                // Set the gameover scene and show it
                 currentStage.setScene(gameoverScene);
                 currentStage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-
-        // Calculate the number of cycles based on the distance and speed
         int cycles = (int) (distanceToFall / speed);
         fallTimeline.setCycleCount(cycles);
         fallTimeline.play();
@@ -219,11 +203,9 @@ public class Hero implements Serializable {
         double stickLength = Math.sqrt(Math.pow(stickLine.getEndX() - stickLine.getStartX(), 2) + Math.pow(stickLine.getEndY() - stickLine.getStartY(), 2));
         double targetX = myHero.getX() + stickLength + 15;
         double currentX = myHero.getX();
-
-        // Calculate the duration based on the distance to move and the speed
         double distanceToMove = Math.abs(targetX - currentX);
 
-        // Use a Timeline to gradually change the hero's X position
+       // Use of Timeline for moving the hero
         moveTimeline[0] = new Timeline(
                 new KeyFrame(Duration.millis(5), e -> {
                     if (myHero.getBoundsInParent().intersects(target.getBoundsInParent()) && this.state == -1) {
@@ -232,14 +214,15 @@ public class Hero implements Serializable {
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
-                        moveTimeline[0].stop(); // Stop the timeline immediately
+                        // Stopping the timeline
+                        moveTimeline[0].stop();
                     } else {
                         double newX = myHero.getX() + (targetX > currentX ? speed : -speed);
                         myHero.setX(newX);
                     }
-                    if (!SceneController.cherries.isEmpty()){
+                    if (!SceneController.cherries.isEmpty()) {
                         ImageView collectedCherry = SceneController.cherries.get(SceneController.cherries.size() - 1);
-                        if (this.state == -1 && myHero.getBoundsInParent().intersects(collectedCherry.getBoundsInParent())){
+                        if (this.state == -1 && myHero.getBoundsInParent().intersects(collectedCherry.getBoundsInParent())) {
                             cherriesCollected = 1;
                             collectedCherry.setX(collectedCherry.getX() - (targetPillar.getDistanceFromPrev() + targetPillar.getWidth() + SceneController.rectangles.get(0).getWidth()));
                         }
@@ -255,71 +238,44 @@ public class Hero implements Serializable {
                     throw new RuntimeException(e);
                 }
             });
-
-            // Calculate the number of cycles based on the distance and speed
             int cycles = (int) (distanceToMove / this.speed);
             moveTimeline[0].setCycleCount(cycles);
             moveTimeline[0].play();
         } else {
             double extramove = Math.abs(targetPillar.getWidth() - (stickLength - targetPillar.getDistanceFromPrev())) - 15;
-            // Calculate the number of cycles based on the distance and speed
             int cycles = (int) ((distanceToMove + extramove) / this.speed);
             moveTimeline[0].setCycleCount(cycles);
             moveTimeline[0].setOnFinished(event -> {
                 scoreButton.setText(String.valueOf(Integer.parseInt(scoreButton.getText()) + 1));
                 this.score += 1;
-                if (cherriesCollected == 0 && !SceneController.cherries.isEmpty()){
+                if (cherriesCollected == 0 && !SceneController.cherries.isEmpty()) {
                     ImageView uncollectedCherry = SceneController.cherries.get(SceneController.cherries.size() - 1);
-                    cherryExit = new TranslateTransition(Duration.millis(500),uncollectedCherry);
+                    cherryExit = new TranslateTransition(Duration.millis(500), uncollectedCherry);
                     double cherryDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth() + SceneController.rectangles.get(0).getWidth();
                     cherryExit.setByX(-cherryDistance);
                     cherryExit.play();
-                }else if (cherriesCollected == 1){
+                } else if (cherriesCollected == 1) {
                     cherryCount.setText(String.valueOf(Integer.parseInt(cherryCount.getText()) + 1));
                     this.cherries += 1;
                     cherriesCollected = 0;
                 }
-                // Target pillar old
                 shiftTransition = new TranslateTransition(Duration.millis(500), target);
-                // Calculate the translation distance
                 double translationDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
-                // Set the translation
                 shiftTransition.setByX(-translationDistance);
-
-                // Play the translation animation
                 shiftTransition.play();
                 heroTransition = new TranslateTransition(Duration.millis(500), myHero);
-
-                // Calculate the translation distance
                 double heroDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
-                // Set the translation
                 heroTransition.setByX(-heroDistance);
-
-                // Play the translation animation
                 heroTransition.play();
-
                 stickTransition = new TranslateTransition(Duration.millis(500), stickLine);
-
-                // Calculate the translation distance
                 double stickDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
-                // Set the translation
                 stickTransition.setByX(-stickDistance);
-
-                // Play the translation animation
                 stickTransition.play();
                 prevTransition = new TranslateTransition(Duration.millis(500), prevPillar);
-
-                // Calculate the translation distance
-                // Base pillar
                 double prevDistance = targetPillar.getDistanceFromPrev() + targetPillar.getWidth();
-                // Set the translation
                 prevTransition.setByX(-prevDistance);
-
-                // Play the translation animation
                 prevTransition.play();
                 AnchorPane anchor = (AnchorPane) myHero.getScene().lookup("#anchor");
-
-                // Check if anchor is not null before proceeding
                 if (anchor != null) {
                     double width = 30 + Math.random() * 120;
                     Rectangle nextPillar = (Rectangle) Factory.getShape("Rectangle");
@@ -334,9 +290,8 @@ public class Hero implements Serializable {
                     double extra = 9 + Math.random() * 180;
                     SceneController.cherryGenerate = 0;
                     Random random = new Random();
-                    // Generate a random number, either 0 or 1
                     int generateCherry = random.nextInt(2);
-                    if (extra > 50 && generateCherry == 1){
+                    if (extra > 50 && generateCherry == 1) {
                         Image cherryImage = new Image("cherry.png");
                         ImageView cherry = new ImageView(cherryImage);
                         anchor.getChildren().add(cherry);
@@ -345,7 +300,6 @@ public class Hero implements Serializable {
                         cherry.setLayoutX(anchor.getWidth());
                         cherry.setLayoutY(220);
                         double cherryExtra = 18 + Math.random() * (extra - 18);
-//                        System.out.println("Cherry Extra: " + cherryExtra);
                         cherryTransition = new TranslateTransition(Duration.millis(500), cherry);
                         cherryTransition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + cherryExtra) + 25));
                         cherryTransition.play();
@@ -353,12 +307,11 @@ public class Hero implements Serializable {
                         SceneController.cherryGenerate = 1;
                     }
                     transition.setToX(-(anchor.getWidth() - (SceneController.rectangles.get(0).getWidth() + extra)));
-//                    System.out.println("Old" + extra);
                     Pillar newPillar = new Pillar(width, width / 2, extra);
                     SceneController.pillars.add(newPillar);
                     transition.play();
                     Stick stick = new Stick(0, 0);
-                    Line line = (Line)Factory.getShape("Line");
+                    Line line = (Line) Factory.getShape("Line");
                     line.setStartX(SceneController.rectangles.get(0).getWidth() - 5);
                     line.setStartY(target.getLayoutY());
                     line.setEndX(SceneController.rectangles.get(0).getWidth() - 5);
@@ -371,7 +324,6 @@ public class Hero implements Serializable {
                     SceneController.sticks.add(stick);
 
                 } else {
-                    // Handle the case where anchor is null
                     System.out.println("Anchor is null");
                 }
             });

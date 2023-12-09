@@ -1,6 +1,6 @@
 package com.example.sample;
 
-public class currentGameScore implements ScoreBoard{
+public class currentGameScore implements ScoreBoard {
 
     @Override
     public int displayScore(Hero hero) {
