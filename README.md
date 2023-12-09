@@ -15,7 +15,11 @@ Run the main class from `App.java`.
 - Only the last saved game will be restored on loading saved games.
 - The player needs a minimum of 5 cherries to revive. After the player has revived, 5 cherries are deducted from total cherries.
 - After reviving, only the statistical progress is restored and the player starts the game again from the initial pillar, which is the checkpoint.
-- Length of the stick can be increased by long pressing whereas the hero flips by a single press.
+
+## Playing the game
+- Length of the stick can be increased by long pressing the keypad/mouse.
+- The stick drops on releasing the keypad/mouse.
+- The hero flips by a single press.
 
 ## Code Implementation
 
