@@ -1,6 +1,10 @@
 # StickHero
 The game is a replica of a popular game Stick Hero
 
+## Running the code
+Run the main class from `App.java`.
+- Change the directory to `/sample` before compiling the `pom.xml` file.
+
 ## Assumptions
 - The cherry on top right while playing the game displays cherries collected in the current game.
 - The cherries on top right of the **Game Over** Screen represents the cherries collected in all sessions of the game.
